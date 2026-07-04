@@ -1,10 +1,12 @@
 # Investment Page Specification
 
-Version: 2.0
+Version: 4.0
 
-Status: Draft
+Status: Architecture Freeze Candidate
 
 Owner: Project Atlas
+
+Display Name: 투자
 
 Related Documents
 
@@ -13,10 +15,11 @@ Related Documents
 - 02_Component.md
 - 03_Widget.md
 - 04_Dashboard.md
-- 05_Asset.md
+- 05_Purpose.md
+- 06_Asset.md
+- ../03_Architecture/01_DomainModel.md
 - ../01_Product/01_Vision.md
 - ../01_Product/02_RuleBook.md
-- ../01_Product/03_UserFlow.md
 
 ---
 
@@ -24,11 +27,13 @@ Related Documents
 
 Investment는 사용자의 투자 자산을 관리하는 화면이다.
 
-Atlas는 투자를 단순한 종목 목록이 아니라
+Atlas는 투자 상품을 중심으로 관리하지 않는다.
 
-사용자의 목표를 달성하기 위한 자산으로 관리한다.
+투자는 하나의 Purpose를 달성하기 위한 수단이다.
 
-사용자는 Purpose와 Investment Type 두 가지 관점에서 투자를 관리할 수 있다.
+Purpose는 별도 화면에서 관리하며,
+
+Investment는 Purpose를 선택하여 연결한다.
 
 ---
 
@@ -36,11 +41,13 @@ Atlas는 투자를 단순한 종목 목록이 아니라
 
 Investment는
 
-수익률을 자랑하는 화면이 아니다.
+종목을 관리하는 화면이다.
 
-현재 투자 상태를 이해하고
+Purpose를 생성하거나 수정하지 않는다.
 
-투자 원칙을 지키고 있는지 확인하는 화면이다.
+Purpose는 투자의 이유이며,
+
+Investment는 그 Purpose를 실현하는 수단이다.
 
 ---
 
@@ -48,34 +55,33 @@ Investment는
 
 사용자는 이 화면에서 다음 질문에 답할 수 있어야 한다.
 
-- 내 투자는 어떤 상태인가?
-- 투자 목적별 비중은 적절한가?
-- 투자 종류별 비중은 적절한가?
-- 어떤 종목을 보유하고 있는가?
+- 내 투자는 어떤 자금 목적을 위한 것인가?
+- 투자 종류별 자산은 어떻게 구성되어 있는가?
+- 자금 목적별 투자 비중은 적절한가?
+- 어떤 계좌에서 운용되고 있는가?
 
 ---
 
 # Screen Responsibilities
 
-Investment는
+Investment는 다음 기능을 담당한다.
 
-- 투자 조회
-- 투자 등록
-- 투자 수정
-- 투자 삭제
-- 투자 목적 변경
+- Investment 조회
+- Investment 등록
+- Investment 수정
+- Investment 삭제
+- Purpose 선택
+- Account 선택
 
-을 담당한다.
+담당하지 않는 기능
 
-Investment는
-
-실제 매매를 수행하지 않는다.
+- Purpose CRUD
+- Goal CRUD
 
 ---
 
-# Layout
+# Screen Structure
 
-```
 Header
 
 ↓
@@ -92,37 +98,7 @@ Investment List
 
 ↓
 
-Detail
-```
-
----
-
-# Layout Structure
-
-```
-┌────────────────────────────────────────────┐
-
-Investment
-
-────────────────────────────────────────────
-
-총 평가금액
-
-총 수익률
-
-────────────────────────────────────────────
-
-[ Purpose ]   [ Investment Type ]
-
-────────────────────────────────────────────
-
-Investment List
-
-────────────────────────────────────────────
-
-Detail
-
-```
+Detail Panel
 
 ---
 
@@ -131,41 +107,39 @@ Detail
 표시 정보
 
 - 총 평가금액
+- 총 손익
 - 총 수익률
-- 투자 종목 수
+- 종목 수
 
-Summary는 읽기 전용이다.
+읽기 전용이다.
 
 ---
 
 # View Toggle
 
-사용자는 두 가지 방식으로 투자를 조회할 수 있다.
+Investment는 두 가지 관점을 제공한다.
 
-## Purpose View (Default)
+## 자금 목적 View (Default)
 
-투자 목적 기준으로 그룹화한다.
+자금 목적별로 투자 자산을 그룹화한다.
 
-예)
+각 Card는
 
-- 내집마련
-- 노후준비
-- 장기투자
-- 단기투자
-
-각 카드에는
-
+- 자금 목적
 - 총 평가금액
-- 수익률
-- 포함 종목 수
+- 투자 종목 수
+- 투자 비중
+- Goal 진행률(Optional)
 
-를 표시한다.
+Goal이 없는 경우
+
+진행률은 표시하지 않는다.
 
 ---
 
-## Investment Type View
+## 투자 종류 View
 
-투자 종류 기준으로 그룹화한다.
+투자 상품 기준으로 그룹화한다.
 
 예)
 
@@ -176,71 +150,82 @@ Summary는 읽기 전용이다.
 - 금
 - 코인
 
-각 카드에는
+각 Card는
 
+- 투자 종류
 - 총 평가금액
 - 비중
 - 종목 수
-
-를 표시한다.
 
 사용자가 마지막으로 선택한 View를 저장한다.
 
 ---
 
-# Investment Detail
+# Detail Panel
 
-선택한 Purpose 또는 Investment Type의 상세 정보를 표시한다.
+## Purpose Detail
 
-표시 정보
+표시
 
-- 종목명
-- 수량
-- 평균단가
-- 현재가
-- 평가금액
-- 평가손익
-- 수익률
-- 연결된 Purpose
+- 자금 목적
+- Goal(Optional)
+- 연결된 Investment
+- 총 평가금액
+- 총 손익
+- 총 수익률
+
+Action
+
+- [ 자금 목적 열기 ]
+
+Purpose 수정은 Purpose 화면에서 수행한다.
+
+---
+
+## Investment Type Detail
+
+표시
+
+- 투자 종류
+- 종목 목록
+- 총 평가금액
+- 총 비중
+
+Action
+
+- 종목 등록
+- 종목 수정
 
 ---
 
 # Investment Registration
 
-사용자는 투자 자산을 등록할 수 있다.
-
 필수 입력
 
 - 종목명
 - 투자 종류
-- 계좌(Account)
-- Purpose
 - 수량
 - 평균단가
+- Purpose
+- Account
 
 선택 입력
 
 - 메모
 
----
+Purpose는 Select에서 선택한다.
 
-# Investment Management
+등록 중 원하는 Purpose가 없다면
 
-사용자는
+[ + 새 자금 목적 ]
 
-- 투자 수정
-- 투자 삭제
-- Purpose 변경
+버튼을 통해 Purpose 화면으로 이동한다.
 
-을 수행할 수 있다.
-
-삭제 시
-
-확인 절차를 제공한다.
+등록 화면은 임시 저장 상태를 유지한다.
 
 ---
 
-# Navigation Rules
+# Navigation
 
 Dashboard
 
@@ -248,13 +233,13 @@ Dashboard
 
 Investment
 
-Investment
+↓
+
+자금 목적
 
 ↓
 
 Investment Detail
-
-Dashboard로 항상 복귀 가능해야 한다.
 
 ---
 
@@ -276,11 +261,23 @@ Double Click
 
 # Empty State
 
-```
+## 자금 목적 없음
+
+아직 자금 목적이 없습니다.
+
+↓
+
+[ 자금 목적 만들기 ]
+
+---
+
+## 투자 자산 없음
+
 아직 등록된 투자 자산이 없습니다.
 
+↓
+
 [ 투자 등록 ]
-```
 
 ---
 
@@ -290,51 +287,75 @@ Double Click
 
 모든 기능 지원
 
-- 등록
-- 수정
-- 삭제
-- Purpose 변경
-
----
-
 ## Mobile (V3)
 
 지원
 
 - 조회
-- 간단한 수정
+- 수정
 - 투자 등록
 
 제한
 
-- 대량 수정
-- 복잡한 관리
+- 복잡한 편집
 
 ---
 
-# Data Requirements
+# Business Rules
+
+Rule 1
+
+모든 Investment는 반드시 하나의 Purpose를 가진다.
+
+---
+
+Rule 2
+
+모든 Investment는 반드시 하나의 Account를 가진다.
+
+---
+
+Rule 3
+
+Purpose는 Investment 화면에서 관리하지 않는다.
+
+---
+
+Rule 4
+
+Purpose 변경은 Investment의 소속만 변경한다.
+
+---
+
+Rule 5
+
+Goal 진행률은 연결된 Purpose를 통해 계산된다.
+
+Investment는 Goal을 직접 참조하지 않는다.
+
+---
+
+# Data Model
 
 Investment
 
 - id
 - symbol
 - name
+- investmentType
 - quantity
 - averagePrice
 - currentPrice
 - marketValue
 - profitLoss
 - returnRate
-- investmentType
-- accountId
 - purposeId
+- accountId
 - memo
-- createdAt
-- updatedAt
 
 ---
 
-# API Requirements
+# API
 
 GET /investments
 
@@ -346,37 +367,25 @@ DELETE /investments/{id}
 
 ---
 
-# Validation Rules
-
-모든 투자 자산은 반드시
-
-- Account
-- Purpose
-
-를 가진다.
-
-수량은 0보다 커야 한다.
-
-평균단가는 0보다 커야 한다.
-
----
-
 # V1 Scope
 
 포함
 
-- Purpose View
-- Investment Type View
+- 자금 목적 View
+- 투자 종류 View
 - Investment CRUD
-- Purpose 변경
+- Purpose 선택
+- Account 선택
 
 제외
 
-- 자동 시세 조회
-- 증권 API 연동
+- Purpose CRUD
+- Goal CRUD
+- 증권사 API
+- 자동 시세
 - 자동 매매
+- AI 분석
 - 리밸런싱
-- AI 투자 분석
 
 ---
 
@@ -386,28 +395,28 @@ DELETE /investments/{id}
 
 - 투자 비중 분석
 - 리밸런싱 제안
-- 종목 메모
+- 투자 이력
 
 ## Version 2
 
-- 증권사 API 연동
-- 자동 시세 업데이트
+- 증권사 API
+- 자동 시세
 - 배당 관리
 - 리스크 분석
 
 ## Version 3
 
 - Mobile Companion
-- 빠른 투자 등록
 
 ---
 
 # Definition of Done
 
 - Summary 구현
-- Purpose View 구현
-- Investment Type View 구현
+- 자금 목적 View 구현
+- 투자 종류 View 구현
 - Investment CRUD 구현
+- Purpose 선택 구현
 - Dashboard 연동
 
 ---
@@ -418,12 +427,12 @@ Design a desktop investment management page for Atlas.
 
 Requirements
 
-- Professional financial dashboard
-- Card-based layout
-- Purpose View as default
-- Investment Type View toggle
+- Professional financial application
+- Purpose View (default)
+- Investment Type View
 - Summary section
-- Investment detail panel
+- Investment cards
+- Detail panel
 - White background
 - Rounded cards (16px)
 - Desktop 1440px
@@ -433,33 +442,21 @@ Requirements
 
 # Review Checklist
 
-- [ ] Purpose 중심 설계를 따르는가?
-- [ ] Investment Type View가 자연스러운가?
-- [ ] Dashboard와 연결되는가?
-- [ ] Toggle 구조가 직관적인가?
-- [ ] 실제 매매 기능을 포함하지 않는가?
-- [ ] One Screen One Question 원칙을 지키는가?
-- [ ] Desktop First 원칙을 따르는가?
-- [ ] V1 범위를 벗어나지 않는가?
+- [ ] Investment가 Purpose를 참조만 하는가?
+- [ ] Purpose CRUD가 제거되었는가?
+- [ ] Goal을 직접 관리하지 않는가?
+- [ ] 자금 목적 View가 기본 화면인가?
+- [ ] 투자 종류 View가 유지되는가?
+- [ ] Domain Model과 일치하는가?
 
 ---
 
 # Notes
 
-Investment는 투자를 기록하는 화면이 아니다.
+Investment는 투자 자산을 관리하는 화면이다.
 
-Investment는
+자금 목적(Purpose)은 별도 화면에서 관리한다.
 
-사용자의 투자 상태를 관리하는 화면이다.
+Investment는 Purpose를 선택하여 연결하고,
 
-Purpose는
-
-'왜 투자하는가'
-
-Investment Type은
-
-'무엇에 투자하는가'
-
-를 의미한다.
-
-이 두 관점을 함께 제공하는 것이 Atlas Investment의 핵심이다.
+Account를 통해 실제 운용 계좌를 관리한다.

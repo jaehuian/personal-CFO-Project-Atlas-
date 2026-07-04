@@ -1,10 +1,12 @@
 # Asset Page Specification
 
-Version: 2.0
+Version: 5.0
 
-Status: Draft
+Status: Architecture Freeze Candidate
 
 Owner: Project Atlas
+
+Display Name: 자산
 
 Related Documents
 
@@ -13,37 +15,34 @@ Related Documents
 - 02_Component.md
 - 03_Widget.md
 - 04_Dashboard.md
+- 05_Purpose.md
+- ../03_Architecture/01_DomainModel.md
 - ../01_Product/01_Vision.md
 - ../01_Product/02_RuleBook.md
-- ../01_Product/03_UserFlow.md
 
 ---
 
 # Purpose
 
-Asset는 사용자가 보유한 모든 자산을 관리하는 화면이다.
+Asset는 사용자의 현금성 자산을 관리하는 화면이다.
 
-Atlas는 자산을 단순히 "어디에 있는 돈"이 아니라
+Atlas는 자산을 단순히 계좌(Account)가 아닌
+자금 목적(Purpose)과 함께 관리한다.
 
-"무엇을 위한 돈(Purpose)"으로 관리한다.
-
-사용자는 Purpose와 Account 두 가지 관점에서 자산을 관리할 수 있다.
+Purpose는 별도 화면에서 관리하며,
+Asset는 Purpose를 선택하여 연결한다.
 
 ---
 
 # Design Philosophy
 
-Asset는 계좌를 보여주는 화면이 아니다.
+Asset는 자산 관리 화면이다.
 
-Asset는
+Purpose를 생성하거나 수정하지 않는다.
 
-"돈의 목적"
+Account는 돈이 보관되는 위치이고,
 
-을 관리하는 화면이다.
-
-Account는 저장 위치이며,
-
-Purpose는 자산의 이유이다.
+Purpose는 돈이 존재하는 이유이다.
 
 ---
 
@@ -51,34 +50,35 @@ Purpose는 자산의 이유이다.
 
 사용자는 이 화면에서 다음 질문에 답할 수 있어야 한다.
 
-- 내 돈은 어디에 있는가?
-- 내 돈은 무엇을 위한 돈인가?
-- 계좌별 자산은 얼마인가?
+- 내 자산은 어디에 있는가?
+- 이 자산은 어떤 자금 목적을 위한 것인가?
 - 목적별 자산은 얼마인가?
+- 계좌별 자산은 얼마인가?
 
 ---
 
 # Screen Responsibilities
 
-Asset는
+Asset는 다음 기능을 담당한다.
 
-- 자산 조회
-- 자산 등록
-- 자산 수정
-- Purpose 변경
-- Account 관리
+- Asset 조회
+- Asset 등록
+- Asset 수정
+- Asset 삭제
+- Purpose 선택
+- Account 선택
 
-를 담당한다.
+담당하지 않는 기능
 
-Asset는
-
-투자 분석이나 소비 분석을 담당하지 않는다.
+- Purpose 생성
+- Purpose 수정
+- Purpose 삭제
+- Goal 관리
 
 ---
 
-# Layout
+# Screen Structure
 
-```
 Header
 
 ↓
@@ -95,37 +95,7 @@ Asset List
 
 ↓
 
-Detail
-```
-
----
-
-# Layout Structure
-
-```
-┌────────────────────────────────────────────┐
-
-Asset
-
-────────────────────────────────────────────
-
-총 자산
-
-82,350,000원
-
-────────────────────────────────────────────
-
-[ Purpose ]   [ Account ]
-
-────────────────────────────────────────────
-
-Asset List
-
-────────────────────────────────────────────
-
-Detail
-
-```
+Detail Panel
 
 ---
 
@@ -134,136 +104,113 @@ Detail
 표시 정보
 
 - 총 자산
-- 계좌 수
-- Purpose 수
+- 자산 개수
+- 자금 목적 개수
+- 계좌 개수
 
-Summary는 읽기 전용이다.
+읽기 전용이다.
 
 ---
 
 # View Toggle
 
-사용자는 두 가지 방식으로 자산을 확인할 수 있다.
+Asset는 두 가지 관점을 제공한다.
 
-## Purpose View (Default)
+## 자금 목적 View (Default)
 
-추천 화면
+자금 목적별로 자산을 그룹화한다.
 
-사용 목적 기준으로 자산을 그룹화한다.
+각 Card는
 
-예)
+- 자금 목적
+- 총 자산
+- 연결된 자산 수
+- 연결된 투자 수
+- 목표 진행률(Optional)
 
-- 생활비
-- 비상금
-- 내집마련
-- 장기투자
-
----
-
-## Account View
-
-계좌 기준으로 자산을 그룹화한다.
-
-예)
-
-- 국민은행
-- 신한은행
-- 한국투자증권
-- ISA
-- 연금저축
+Goal이 연결되지 않은 경우
+진행률은 표시하지 않는다.
 
 ---
+
+## 계좌 View
+
+계좌별로 자산을 그룹화한다.
+
+각 Card는
+
+- 계좌명
+- 계좌 종류
+- 총 자산
+- 연결된 자금 목적 수
 
 사용자가 마지막으로 선택한 View를 저장한다.
 
 ---
 
-# Purpose View
+# Detail Panel
 
-각 Purpose Card는 다음 정보를 표시한다.
+## 자금 목적 Detail
 
-- Purpose 이름
+표시
+
+- 자금 목적 이름
+- 연결된 Goal(Optional)
 - 총 자산
-- 진행률 (Goal이 연결된 경우)
-- 포함된 Account 수
-
-클릭 시
-
-Purpose Detail 화면으로 이동한다.
-
----
-
-# Account View
-
-각 Account Card는 다음 정보를 표시한다.
-
-- Account 이름
-- Account 종류
-- 총 자산
-- 연결된 Purpose
-
-클릭 시
-
-Account Detail 화면으로 이동한다.
-
----
-
-# Asset Detail
-
-선택한 Purpose 또는 Account의 상세 정보를 표시한다.
-
-표시 정보
-
-- 자산 목록
-- 평가금액
-- 메모
-- 연결된 Goal
+- 연결된 Asset
 - 연결된 Investment
+
+Action
+
+- [ 자금 목적 열기 ]
+
+Purpose 수정은 Purpose 화면에서 수행한다.
+
+---
+
+## Account Detail
+
+표시
+
+- 계좌명
+- 금융기관
+- 계좌 종류
+- 총 자산
+- 연결된 Asset 목록
+
+Action
+
+- 계좌 수정
+- 계좌 비활성화
 
 ---
 
 # Asset Registration
 
-사용자는 자산을 등록할 수 있다.
-
 필수 입력
 
 - 자산명
 - 평가금액
-- Account
-- Purpose
+- 자금 목적
+- 계좌
 
 선택 입력
 
 - 메모
 
----
+자금 목적은 Select에서 선택한다.
 
-# Purpose Management
+등록 중 원하는 자금 목적이 없다면
 
-사용자는 자산의 Purpose를 변경할 수 있다.
+[ + 새 자금 목적 ]
 
-Purpose 변경은
+버튼을 통해 Purpose 화면으로 이동한다.
 
-Goal 진행률에 즉시 반영된다.
-
----
-
-# Account Management
-
-사용자는
-
-- 계좌 추가
-- 계좌 수정
-- 계좌 비활성화
-
-를 수행할 수 있다.
-
-계좌 삭제는 연결된 자산이 없는 경우에만 가능하다.
+등록 화면은 임시 저장 상태를 유지한다.
 
 ---
 
-# Navigation Rules
+# Navigation
 
 Dashboard
 
@@ -271,19 +218,13 @@ Dashboard
 
 Asset
 
-Asset
+↓
+
+자금 목적
 
 ↓
 
-Purpose Detail
-
-Asset
-
-↓
-
-Account Detail
-
-Dashboard로 항상 복귀 가능해야 한다.
+계좌 Detail
 
 ---
 
@@ -305,13 +246,23 @@ Double Click
 
 # Empty State
 
-```
+## 자금 목적 없음
+
+아직 자금 목적이 없습니다.
+
+↓
+
+[ 자금 목적 만들기 ]
+
+---
+
+## 자산 없음
+
 아직 등록된 자산이 없습니다.
 
-[ 자산 등록 ]
-```
+↓
 
-Purpose View와 Account View 모두 Empty State를 제공한다.
+[ 자산 등록 ]
 
 ---
 
@@ -321,62 +272,68 @@ Purpose View와 Account View 모두 Empty State를 제공한다.
 
 모든 기능 지원
 
-- 등록
-- 수정
-- Purpose 변경
-- Account 관리
-
----
-
 ## Mobile (V3)
 
 지원
 
 - 조회
-- 간단한 수정
+- 수정
 - 자산 등록
 
 제한
 
-- Account 관리
-- 대량 수정
+- 복잡한 편집
 
 ---
 
-# Data Requirements
+# Business Rules
+
+Rule 1
+
+모든 Asset는 반드시 하나의 Purpose를 가진다.
+
+---
+
+Rule 2
+
+모든 Asset는 반드시 하나의 Account를 가진다.
+
+---
+
+Rule 3
+
+Purpose는 Asset 화면에서 관리하지 않는다.
+
+---
+
+Rule 4
+
+Purpose 변경은 Asset의 소속만 변경한다.
+
+---
+
+Rule 5
+
+Goal 진행률은 Purpose를 통해 계산된다.
+
+Asset는 Goal을 직접 참조하지 않는다.
+
+---
+
+# Data Model
 
 Asset
 
 - id
 - name
 - marketValue
-- accountId
 - purposeId
+- accountId
 - memo
-- createdAt
-- updatedAt
 
 ---
 
-Account
-
-- id
-- name
-- type
-- institution
-- isActive
-
----
-
-Purpose
-
-- id
-- name
-- goalId
-
----
-
-# API Requirements
+# API
 
 GET /assets
 
@@ -386,77 +343,52 @@ PUT /assets/{id}
 
 DELETE /assets/{id}
 
-GET /accounts
-
-POST /accounts
-
-PUT /accounts/{id}
-
-GET /purposes
-
----
-
-# Validation Rules
-
-모든 Asset는 반드시
-
-- Account
-- Purpose
-
-를 가진다.
-
-평가금액은 0 이상이어야 한다.
-
 ---
 
 # V1 Scope
 
 포함
 
-- Purpose View
-- Account View
+- 자금 목적 View
+- 계좌 View
 - Asset CRUD
-- Purpose 변경
+- Purpose 선택
 - Account 관리
 
 제외
 
-- 자산 이력
-- 자동 시세 반영
+- Purpose CRUD
+- Goal CRUD
 - Open Banking
-- 증권 API 연동
-- 자동 분류
+- 자동 시세 연동
 
 ---
 
 # Future Features
 
-Version 1.2
+## Version 1.2
 
-- 자산 증감 이력
-- Account Archive
-- Purpose 추천
+- 자산 이동 이력
+- Purpose 변경 이력
 
-Version 2
+## Version 2
 
-- 자동 계좌 동기화
 - Open Banking
-- 자산 시뮬레이션
+- 자동 자산 동기화
 
-Version 3
+## Version 3
 
 - Mobile Companion
-- 빠른 자산 등록
 
 ---
 
 # Definition of Done
 
 - Summary 구현
-- Purpose View 구현
-- Account View 구현
+- 자금 목적 View 구현
+- 계좌 View 구현
 - Asset CRUD 구현
-- Purpose 변경 구현
+- Purpose 선택 구현
 - Dashboard 연동
 
 ---
@@ -467,12 +399,12 @@ Design a desktop asset management page for Atlas.
 
 Requirements
 
-- Professional financial dashboard
-- Card-based layout
-- Purpose View as default
-- Account View toggle
+- Professional finance application
+- Purpose View (default)
+- Account View
 - Summary section
-- Asset detail panel
+- Asset cards
+- Detail panel
 - White background
 - Rounded cards (16px)
 - Desktop 1440px
@@ -482,22 +414,21 @@ Requirements
 
 # Review Checklist
 
-- [ ] Purpose 중심으로 설계되었는가?
-- [ ] Account와 Purpose 역할이 명확히 구분되는가?
-- [ ] Dashboard와 자연스럽게 연결되는가?
-- [ ] Toggle 구조가 직관적인가?
-- [ ] One Screen One Question 원칙을 지키는가?
-- [ ] Desktop First 원칙을 따르는가?
-- [ ] V1 범위를 벗어나지 않는가?
+- [ ] Asset가 Purpose를 참조만 하는가?
+- [ ] Purpose CRUD가 제거되었는가?
+- [ ] Goal을 직접 관리하지 않는가?
+- [ ] 자금 목적 View가 기본 화면인가?
+- [ ] Domain Model과 일치하는가?
+- [ ] Dashboard와 일관성이 있는가?
 
 ---
 
 # Notes
 
-Asset는 Atlas의 핵심 데이터 관리 화면이다.
+Asset는 자산을 관리하는 화면이다.
 
-사용자는 자산을 계좌가 아니라 목적(Purpose) 중심으로 이해해야 한다.
+자금 목적(Purpose)은 별도 화면에서 관리한다.
 
-Account는 저장 위치이고,
+Asset는 Purpose를 선택하여 연결하고,
 
-Purpose는 자산의 이유이다.
+Account를 통해 실제 보관 위치를 관리한다.

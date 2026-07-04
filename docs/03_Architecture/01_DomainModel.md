@@ -1,8 +1,8 @@
 # Atlas Domain Model
 
-Version: 1.0
+Version: 2.0
 
-Status: Draft
+Status: Architecture Freeze Candidate
 
 Owner: Project Atlas
 
@@ -20,45 +20,54 @@ Related Documents
 
 # Purpose
 
-Domain Model은 Atlas를 구성하는 핵심 비즈니스 개념과
+Domain Model은 Atlas의 핵심 비즈니스 개념과
 그 관계를 정의한다.
 
 Database, API, State Management는
-모두 본 문서를 기준으로 설계한다.
+본 문서를 기준으로 설계한다.
+
+Domain Model은 Atlas의 Source of Truth이다.
 
 ---
 
 # Domain Philosophy
 
-Atlas는 계좌 중심이 아닌
+Atlas는
+
+계좌(Account) 중심이 아닌
+
 목적(Purpose) 중심으로 자산을 관리한다.
 
-Purpose는 모든 자산 관리의 중심 엔티티이다.
+Goal은 선택사항이다.
+
+Purpose는 필수이다.
 
 ---
 
-# Domain Overview
+# Core Domain Structure
 
 ```
 
-Goal
-↑
-│
-Purpose
-│
-├──────── Asset
-│
-├──────── Investment
-│
-└──────── Rule (Recommendation)
+                    Goal (0..1)
+                        ▲
+                        │
+                  (Optional)
+                        │
+                     Purpose
+                 ┌────┴────┐
+                 │         │
+              Asset   Investment
+                 │         │
+                 └────┬────┘
+                      │
+                   Account
+                      │
+                Transaction
 
+Rule
 ↓
 
-Account
-
-↓
-
-Transaction
+Recommendation
 
 ```
 
@@ -66,23 +75,9 @@ Transaction
 
 # Core Domains
 
-Atlas는 아래 Domain으로 구성된다.
-
-- Goal
-- Purpose
-- Account
-- Asset
-- Investment
-- Transaction
-- Rule
-
----
-
-# Domain Description
-
 ## Goal
 
-사용자의 재무 목표
+사용자의 장기 재무 목표
 
 예)
 
@@ -90,11 +85,13 @@ Atlas는 아래 Domain으로 구성된다.
 - 비상금
 - 노후준비
 
-Goal은 하나 이상의 Purpose를 가질 수 있다.
+Goal은 선택적으로 Purpose와 연결된다.
+
+Goal 없이도 Atlas는 정상 동작한다.
 
 ---
 
-## Purpose
+## Purpose ⭐
 
 Atlas의 핵심 Domain
 
@@ -107,16 +104,14 @@ Purpose는
 예)
 
 - 생활비
-- 내집마련
 - 비상금
+- 내집마련
 - 장기투자
 
-Purpose는
+모든 Asset와 Investment는
+반드시 하나의 Purpose를 가진다.
 
-- Asset
-- Investment
-
-와 연결된다.
+Goal 연결은 선택 사항이다.
 
 ---
 
@@ -127,11 +122,14 @@ Purpose는
 예)
 
 - 국민은행
+- 신한은행
 - ISA
-- 한국투자증권
 - 연금저축
+- 한국투자증권
 
-Account는 돈의 저장 위치이다.
+Account는
+
+돈이 보관되는 위치이다.
 
 ---
 
@@ -147,11 +145,12 @@ Account는 돈의 저장 위치이다.
 
 Asset는
 
-Purpose를 가진다.
+반드시
 
-Asset는
+- Purpose
+- Account
 
-하나의 Account에 저장된다.
+를 가진다.
 
 ---
 
@@ -169,11 +168,12 @@ Asset는
 
 Investment는
 
-Purpose를 가진다.
+반드시
 
-Investment는
+- Purpose
+- Account
 
-하나의 Account에 보관된다.
+를 가진다.
 
 ---
 
@@ -189,7 +189,9 @@ Investment는
 
 Transaction은
 
-하나의 Account에서 발생한다.
+반드시 하나의 Account에서 발생한다.
+
+Transaction은 Asset의 변화를 기록한다.
 
 ---
 
@@ -197,15 +199,23 @@ Transaction은
 
 사용자의 관리 원칙
 
-Rule은 Recommendation Engine에서 사용된다.
+Rule은
+
+Recommendation Engine의 입력값이다.
+
+Rule은
+
+Asset를 직접 변경하지 않는다.
 
 ---
 
-# Relationships
+# Domain Relationships
 
 ## Goal
 
-1 : N
+0..1
+
+↓
 
 Purpose
 
@@ -213,7 +223,11 @@ Purpose
 
 ## Purpose
 
-1 : N
+1
+
+↓
+
+N
 
 Asset
 
@@ -221,7 +235,11 @@ Asset
 
 ## Purpose
 
-1 : N
+1
+
+↓
+
+N
 
 Investment
 
@@ -229,7 +247,11 @@ Investment
 
 ## Account
 
-1 : N
+1
+
+↓
+
+N
 
 Asset
 
@@ -237,7 +259,11 @@ Asset
 
 ## Account
 
-1 : N
+1
+
+↓
+
+N
 
 Investment
 
@@ -245,7 +271,11 @@ Investment
 
 ## Account
 
-1 : N
+1
+
+↓
+
+N
 
 Transaction
 
@@ -253,29 +283,75 @@ Transaction
 
 ## Rule
 
-Recommendation Engine 참조
+↓
+
+Recommendation Engine
 
 ---
 
-# Ownership
+# Business Rules
 
-Goal
+## Rule 1
 
-↓
+Purpose는 Goal 없이 생성할 수 있다.
 
-Purpose
+---
 
-↓
+## Rule 2
 
-Asset / Investment
+Goal은 하나 이상의 Purpose와 연결될 수 있다.
 
-↓
+---
 
-Account
+## Rule 3
 
-↓
+Purpose는 Goal 없이도 Dashboard에 표시된다.
 
-Transaction
+---
+
+## Rule 4
+
+모든 Asset는
+
+반드시 하나의 Purpose를 가진다.
+
+---
+
+## Rule 5
+
+모든 Investment는
+
+반드시 하나의 Purpose를 가진다.
+
+---
+
+## Rule 6
+
+Account는
+
+돈의 저장 위치이다.
+
+Purpose와 독립적이다.
+
+---
+
+## Rule 7
+
+Transaction은
+
+Purpose를 직접 가지지 않는다.
+
+Account를 통해 연결된다.
+
+---
+
+## Rule 8
+
+Rule은
+
+Recommendation에만 영향을 준다.
+
+데이터를 자동 변경하지 않는다.
 
 ---
 
@@ -284,6 +360,11 @@ Transaction
 Goal Aggregate
 
 - Goal
+
+---
+
+Purpose Aggregate
+
 - Purpose
 
 ---
@@ -317,11 +398,11 @@ Recommendation Aggregate
 
 # Lifecycle
 
-Goal 생성
+Purpose 생성
 
 ↓
 
-Purpose 생성
+Goal 연결(Optional)
 
 ↓
 
@@ -349,39 +430,17 @@ Recommendation 생성
 
 ---
 
-# Domain Rules
-
-Goal 없이 Purpose를 생성할 수 없다.
-
-Purpose 없이 Asset를 생성할 수 없다.
-
-Purpose 없이 Investment를 생성할 수 없다.
-
-Asset는 반드시 하나의 Account를 가진다.
-
-Investment는 반드시 하나의 Account를 가진다.
-
-Transaction은 반드시 하나의 Account를 가진다.
-
-Rule은 Dashboard Recommendation에서만 사용된다.
-
----
-
 # Version 1 Scope
 
-Goal
+Domain
 
-Purpose
-
-Account
-
-Asset
-
-Investment
-
-Transaction
-
-Rule
+- Goal
+- Purpose
+- Account
+- Asset
+- Investment
+- Transaction
+- Rule
 
 ---
 
@@ -389,9 +448,9 @@ Rule
 
 Version 2
 
-- Portfolio
 - Institution
 - ExchangeRate
+- Portfolio
 
 Version 2.5
 
@@ -400,34 +459,49 @@ Version 2.5
 
 Version 3
 
-- User
 - Workspace
 - Collaboration
+
+---
+
+# Architecture Principles
+
+Purpose는 Atlas의 중심 Domain이다.
+
+Goal은 방향(Direction)을 정의한다.
+
+Purpose는 이유(Intent)를 정의한다.
+
+Account는 위치(Location)를 정의한다.
+
+Asset와 Investment는 가치(Value)를 저장한다.
+
+Transaction은 변화(Change)를 기록한다.
+
+Rule은 판단(Judgement)을 돕는다.
 
 ---
 
 # Review Checklist
 
 - [ ] Purpose가 중심 Domain인가?
-- [ ] 모든 Domain 관계가 명확한가?
+- [ ] Goal이 Optional인가?
+- [ ] 모든 Asset가 Purpose를 가지는가?
+- [ ] 모든 Investment가 Purpose를 가지는가?
 - [ ] Dashboard 구조와 일치하는가?
-- [ ] Rule이 Recommendation 전용인가?
-- [ ] V1 범위를 벗어나지 않는가?
+- [ ] Database 설계가 가능한가?
+- [ ] API 설계가 가능한가?
 
 ---
 
 # Notes
 
-Purpose는 Atlas의 핵심 Domain이다.
+Atlas는
 
-Goal은 방향을 정의한다.
+Account 기반 프로그램이 아니다.
 
-Purpose는 이유를 정의한다.
+Goal 기반 프로그램도 아니다.
 
-Account는 위치를 정의한다.
+Atlas는
 
-Asset와 Investment는 가치를 저장한다.
-
-Transaction은 변화를 기록한다.
-
-Rule은 의사결정을 돕는다.
+Purpose 중심의 개인 자산관리 플랫폼이다.

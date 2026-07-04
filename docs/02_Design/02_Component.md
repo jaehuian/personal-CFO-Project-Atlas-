@@ -1,8 +1,8 @@
 # Atlas Component System
 
-Version: 1.1
+Version: 2.0
 
-Status: Draft
+Status: Architecture Freeze Candidate
 
 Owner: Project Atlas
 
@@ -11,21 +11,32 @@ Related Documents
 - 00_StyleGuide.md
 - 01_DesignSystem.md
 - 03_Widget.md
-- 04_Dashboard.md
 
 ---
 
 # Purpose
 
-Component는 Atlas UI를 구성하는 가장 작은 재사용 가능한 단위이다.
+Component는 Atlas UI를 구성하는 가장 작은 재사용 단위이다.
 
-모든 화면은 Component를 조합하여 만들어진다.
+모든 화면(Page)은 Component를 조합하여 구성한다.
 
-Page
+Component는 비즈니스 로직을 가지지 않는다.
 
-↓
+---
 
-Widget
+# Design Philosophy
+
+Atlas는 Component First를 원칙으로 한다.
+
+새로운 화면보다 새로운 Component를 먼저 설계한다.
+
+Component는 하나의 책임만 가져야 한다.
+
+---
+
+# UI Hierarchy
+
+Foundation
 
 ↓
 
@@ -33,44 +44,6 @@ Component
 
 ↓
 
-Design Token
-
----
-
-# Component Philosophy
-
-Component는
-
-한 가지 역할만 수행해야 한다.
-
-하나의 Component가
-
-두 가지 이상의 책임을 가지면 안 된다.
-
----
-
-# Component Hierarchy
-
-Foundation
-
-↓
-
-Basic Component
-
-↓
-
-Financial Component
-
-↓
-
-Layout Component
-
-↓
-
-Complex Component
-
-↓
-
 Widget
 
 ↓
@@ -79,62 +52,76 @@ Page
 
 ---
 
-# Component Contract
+# Component Rules
 
-모든 Component는 아래 구조를 따른다.
+모든 Component는
 
-Purpose
-
-↓
-
-Props
-
-↓
-
-Variants
-
-↓
-
-States
-
-↓
-
-Interaction
-
-↓
-
-Accessibility
-
-↓
-
-Composition Rules
+- 재사용 가능해야 한다.
+- 하나의 역할만 수행해야 한다.
+- 독립적으로 테스트 가능해야 한다.
+- Theme 변경에 영향을 받지 않아야 한다.
 
 ---
 
-# Foundation
+# Component Categories
 
-Foundation은 UI의 가장 기본 요소이다.
+Atlas는 아래 Component를 제공한다.
 
-포함
+## Foundation Components
 
-- Color
-- Typography
-- Spacing
-- Radius
-- Shadow
-- Motion
-
-Foundation은 DesignSystem과 StyleGuide에서 관리한다.
+- Button
+- Input
+- Select
+- Switch
+- Checkbox
+- Badge
+- Tag
+- Divider
+- Icon
 
 ---
 
-# Basic Components
+## Layout Components
+
+- Card
+- Section
+- Panel
+- Grid
+- Stack
+- Tabs
+
+---
+
+## Domain Components
+
+- SummaryCard
+- PurposeCard
+- AssetCard
+- AccountCard
+- InvestmentCard
+- GoalCard
+- RecommendationCard
+- RuleCard
+- TransactionRow
+
+---
+
+## Feedback Components
+
+- EmptyState
+- Toast
+- Dialog
+- Tooltip
+
+---
+
+# Foundation Components
 
 ## Button
 
-Purpose
+용도
 
-사용자의 행동을 실행한다.
+사용자의 Action 수행
 
 Variants
 
@@ -147,212 +134,39 @@ States
 
 - Default
 - Hover
-- Focus
+- Active
 - Disabled
 - Loading
-
-Usage
-
-- Primary Button은 한 화면에 최대 2개
-- Danger Button은 삭제 기능에서만 사용
 
 ---
 
 ## Input
 
-Purpose
-
-사용자의 데이터를 입력받는다.
-
-Variants
+지원
 
 - Text
 - Number
 - Currency
-- Percentage
+- Search
 
-States
+---
 
-- Empty
-- Filled
-- Error
-- Disabled
+## Select
+
+지원
+
+- Single Select
+- Multi Select (V2)
+
+---
+
+## Switch
+
+ON/OFF
 
 Rule
 
-Placeholder는 설명이 아니다.
-
-Label은 항상 표시한다.
-
----
-
-## Badge
-
-Purpose
-
-상태를 간단하게 표시한다.
-
-Examples
-
-- Active
-- Disabled
-- Completed
-
----
-
-## Chip
-
-Purpose
-
-필터 또는 선택 상태를 표현한다.
-
-Examples
-
-- Purpose Toggle
-- Account Toggle
-- Investment Type
-
----
-
-## Icon
-
-Library
-
-Lucide
-
-Style
-
-Outline
-
-Rule
-
-아이콘은 의미 전달을 위한 보조 요소이다.
-
----
-
-# Financial Components
-
-Atlas 전용 컴포넌트
-
----
-
-## Money
-
-Purpose
-
-금액 표시
-
-Props
-
-- value
-- currency
-- showSign
-
-States
-
-- Positive
-- Negative
-- Zero
-
-Rules
-
-- 오른쪽 정렬
-- 천 단위 구분
-- 통화 기호 표시
-
-Example
-
-₩82,350,000
-
----
-
-## Percentage
-
-Purpose
-
-비율 표시
-
-States
-
-- Positive
-- Negative
-- Neutral
-
-Example
-
-+12.35%
-
----
-
-## Trend
-
-Purpose
-
-증감 표시
-
-Elements
-
-- Arrow
-- Value
-
-Examples
-
-▲ +120만원
-
-▼ -30만원
-
----
-
-## Goal Progress
-
-Purpose
-
-목표 진행률 표시
-
-Elements
-
-- Progress Bar
-- Percentage
-- Current
-- Target
-
----
-
-## Purpose Badge
-
-Purpose
-
-자산의 사용 목적 표시
-
-Examples
-
-생활비
-
-비상금
-
-내집마련
-
-장기투자
-
----
-
-## Account Badge
-
-Purpose
-
-계좌 종류 표시
-
-Examples
-
-입출금
-
-예금
-
-ISA
-
-연금저축
-
-증권
+Boolean 값만 사용한다.
 
 ---
 
@@ -360,139 +174,265 @@ ISA
 
 ## Card
 
-Purpose
+모든 Domain Card의 부모 Component
 
-하나의 정보를 담는다.
+공통 속성
 
-Rule
+- Radius 16px
+- Padding 24px
+- Border
+- Hover Shadow
 
-Card 안에 Card를 중첩하지 않는다.
-
----
-
-## Section
-
-Purpose
-
-관련 Card를 그룹화한다.
+Card 자체는 데이터 의미를 가지지 않는다.
 
 ---
 
-## Divider
+## Tabs
 
-Purpose
+Purpose / Account
 
-정보를 구분한다.
+Purpose / Investment Type
 
----
-
-## Header
-
-Purpose
-
-페이지 제목과 주요 Action을 제공한다.
+등 View Toggle에서 사용한다.
 
 ---
 
-## Container
+# Domain Components
 
-Purpose
+## SummaryCard
 
-레이아웃 폭을 제한한다.
+사용 화면
 
----
+- Dashboard
+- Asset
+- Investment
+- Goal
+- Ledger
 
-# Complex Components
+표시 정보
 
-복수의 Component를 조합한 컴포넌트
-
----
-
-## NetWorthCard
-
-구성
-
-- Card
-- Money
-- Trend
+- Title
+- Value
+- Description (Optional)
+- Trend (Optional)
 
 ---
 
-## GoalCard
+## PurposeCard ⭐
 
-구성
+Atlas의 핵심 Component
 
-- Card
-- Goal Progress
+사용 화면
+
+- Dashboard
+- Purpose
+- Asset
+- Investment
+
+표시
+
+- Purpose 이름
+- 총 자산
+- Goal 진행률(Optional)
+- Asset 수
+- Investment 수
+
+Action
+
+Click
+
+Purpose Detail 이동
+
+---
+
+## AssetCard
+
+사용 화면
+
+- Asset
+
+표시
+
+- 자산명
+- 평가금액
+- Purpose
+- Account
+
+---
+
+## AccountCard
+
+사용 화면
+
+- Asset
+
+표시
+
+- 계좌명
+- 종류
+- 총 자산
 
 ---
 
 ## InvestmentCard
 
-구성
+사용 화면
 
-- Card
-- Money
-- Percentage
+- Investment
+
+표시
+
+- 종목명
+- 수익률
+- 평가금액
+- Purpose
+
+---
+
+## GoalCard
+
+사용 화면
+
+- Dashboard
+- Goal
+
+표시
+
+- 목표명
+- 진행률
+- 목표금액
+- 현재금액
 
 ---
 
 ## RecommendationCard
 
+사용 화면
+
+- Dashboard
+
+표시
+
+- 제목
+- 설명
+- 추천 이유
+- Action
+
+---
+
+## RuleCard
+
+사용 화면
+
+- Management Principles
+
+표시
+
+- Rule 이름
+- 값
+- Switch
+
+---
+
+## TransactionRow
+
+사용 화면
+
+- Ledger
+
+표시
+
+- 날짜
+- 금액
+- 카테고리
+- Account
+
+---
+
+# Feedback Components
+
+## EmptyState
+
+사용 화면
+
+모든 화면
+
 구성
 
-- Card
 - Icon
-- Button
+- Title
+- Description
+- Primary Button
 
 ---
 
-# Composition Rules
+## Dialog
 
-Component는 아래 방향으로만 조합할 수 있다.
+사용
 
-Foundation
+삭제 확인
 
-↓
-
-Basic
-
-↓
-
-Financial
-
-↓
-
-Layout
-
-↓
-
-Complex
-
-↓
-
-Widget
-
-↓
-
-Page
-
-역방향 참조는 금지한다.
+주의 확인
 
 ---
 
-# Component States
+## Toast
 
-모든 Component는 가능한 경우 아래 상태를 지원한다.
+사용
 
-- Default
-- Hover
-- Focus
-- Disabled
-- Loading
-- Error
+저장 완료
 
-지원하지 않는 경우 명시한다.
+삭제 완료
+
+오류
+
+---
+
+# Component Composition
+
+Component는 다른 Component를 포함하지 않는다.
+
+Widget에서 Component를 조합한다.
+
+예)
+
+Purpose Widget
+
+├── SummaryCard
+
+├── PurposeCard
+
+└── ProgressRing
+
+---
+
+# Naming Rules
+
+컴포넌트 이름은
+
+도메인 중심으로 작성한다.
+
+좋은 예
+
+- PurposeCard
+- GoalCard
+- AssetCard
+
+나쁜 예
+
+- BlueCard
+- FinanceBox
+- LargeCard
+
+---
+
+# Props Guidelines
+
+모든 Component는
+
+- 최소한의 Props만 가진다.
+- 비즈니스 로직을 포함하지 않는다.
+- Domain 객체를 직접 수정하지 않는다.
 
 ---
 
@@ -501,147 +441,87 @@ Page
 모든 Component는
 
 - Keyboard Navigation
-- Focus Visible
+- Focus
 - Screen Reader
 
-를 지원한다.
-
-색상만으로 상태를 표현하지 않는다.
+를 지원해야 한다.
 
 ---
 
-# Figma Rules
+# Platform Strategy
 
-모든 Component는 Variant를 사용한다.
+Desktop
 
-예시
+모든 Component 지원
 
-Button
+Mobile
 
-- Type
-- Size
-- State
+동일한 Component 사용
 
-Chip
-
-- Selected
-- Unselected
-
-Money
-
-- Positive
-- Negative
-- Neutral
+Layout만 변경
 
 ---
 
-# React Rules
+# Version 1 Scope
 
-Component는 하나의 파일로 관리한다.
+포함
 
-예시
+- Foundation
+- Layout
+- Domain
+- Feedback
 
-Button.tsx
+제외
 
-Money.tsx
-
-GoalProgress.tsx
-
-RecommendationCard.tsx
-
----
-
-# Naming Rules
-
-Component
-
-PascalCase
-
-Props
-
-camelCase
-
-Boolean
-
-isEnabled
-
-hasValue
-
-canEdit
+- Animation
+- Skeleton
+- Chart Component
+- AI Component
 
 ---
 
-# Folder Structure
+# Future Features
 
-/components
+## Version 1.2
 
-/ui
+- Skeleton
+- Statistic Card
+- Timeline
 
-- Button
-- Input
-- Badge
-- Chip
-- Icon
+## Version 2
 
-/financial
+- Drag & Drop
+- Chart Component
+- Smart Search
 
-- Money
-- Percentage
-- Trend
-- GoalProgress
-- PurposeBadge
-- AccountBadge
+## Version 3
 
-/layout
-
-- Card
-- Container
-- Header
-- Section
-- Divider
-
-/complex
-
-- NetWorthCard
-- GoalCard
-- InvestmentCard
-- RecommendationCard
-
----
-
-# Future Components
-
-Version 1.2
-
-- ChartCard
-- BudgetCard
-- MonthlyReportCard
-
-Version 2
-
-- AIRecommendationCard
-- ScenarioCard
-- SimulationCard
+- Mobile Optimized Component
+- Adaptive Layout
 
 ---
 
 # Review Checklist
 
-- [ ] 하나의 역할만 수행하는가?
+- [ ] Component가 하나의 역할만 가지는가?
+- [ ] Widget와 역할이 구분되는가?
+- [ ] Domain 중심 이름을 사용하는가?
 - [ ] 재사용 가능한가?
-- [ ] Widget에 종속되지 않는가?
-- [ ] Accessibility를 지원하는가?
-- [ ] Figma Variant로 표현 가능한가?
-- [ ] React에서 독립 Component로 구현 가능한가?
-- [ ] Composition Rule을 위반하지 않는가?
+- [ ] PurposeCard가 공통 Component인가?
+- [ ] Dashboard와 연결되는가?
 
 ---
 
-# Version History
+# Notes
 
-## v1.0
+Atlas는
 
-- Initial Component System
-- Financial Components 정의
-- Component Contract 정의
-- Composition Rules 정의
+Page First가 아니라
+
+Component First를 따른다.
+
+모든 화면은
+
+Component를 조합하여 만들어진다.
+
+Component는 Atlas UI의 가장 작은 재사용 단위이다.
