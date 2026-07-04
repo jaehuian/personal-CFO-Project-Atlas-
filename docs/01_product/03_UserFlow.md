@@ -1,6 +1,6 @@
 # Atlas User Flow
 
-Version: 1.0
+Version: 1.1
 
 Status: Draft
 
@@ -8,27 +8,314 @@ Owner: Project Atlas
 
 Related Documents
 
+- README.md
+- 00_Common/01_Glossary.md
 - 01_Vision.md
 - 02_RuleBook.md
-- README.md
 
 ---
 
 # Purpose
 
-이 문서는 Atlas에서 사용자가 자산을 관리하는 전체 흐름(User Journey)을 정의한다.
+User Flow는 사용자가 Atlas를 사용하는 전체 흐름을 정의한다.
 
-모든 화면 설계(UI/UX)는 본 문서를 기준으로 한다.
+Atlas는 단순한 화면 이동이 아닌,
 
-새로운 기능을 추가할 경우 먼저 User Flow를 검토한다.
+사용자의 의사결정 과정을 중심으로 설계한다.
+
+모든 기능은 Dashboard를 중심으로 연결된다.
 
 ---
 
-# User Journey
+# Core User Journey
 
-Atlas에서 사용자는 아래 순서로 서비스를 이용한다.
+사용자는 항상 다음 순서로 Atlas를 사용한다.
 
 ```
+
+Dashboard
+
+↓
+
+현재 상태 확인
+
+↓
+
+필요한 화면 이동
+
+↓
+
+정보 확인 또는 수정
+
+↓
+
+Dashboard 복귀
+
+```
+
+Dashboard는 시작점이며,
+
+모든 작업의 종료 지점이다.
+
+---
+
+# Dashboard First
+
+Atlas는 Dashboard 중심으로 동작한다.
+
+Dashboard에서
+
+현재 상태를 확인하고,
+
+필요한 화면으로 이동한다.
+
+Dashboard는
+
+직접 데이터를 수정하지 않는다.
+
+---
+
+# Primary Navigation
+
+Dashboard
+
+↓
+
+Asset
+
+↓
+
+Investment
+
+↓
+
+Goal
+
+↓
+
+Ledger
+
+↓
+
+Management Principles
+
+각 화면은 Dashboard와 직접 연결된다.
+
+화면 간 이동보다
+
+Dashboard 복귀를 우선한다.
+
+---
+
+# Screen Responsibilities
+
+## Dashboard
+
+질문
+
+현재 어떤 상태인가?
+
+제공
+
+- 자산 현황
+- 투자 현황
+- 목표 진행률
+- 추천
+
+---
+
+## Asset
+
+질문
+
+내 돈은 어디에 있는가?
+
+사용자는
+
+Purpose
+
+또는
+
+Account
+
+기준으로 자산을 확인한다.
+
+---
+
+## Investment
+
+질문
+
+내 투자는 어떤 상태인가?
+
+사용자는
+
+Portfolio
+
+또는
+
+Investment Type
+
+기준으로 투자 자산을 관리한다.
+
+---
+
+## Goal
+
+질문
+
+목표까지 얼마나 남았는가?
+
+사용자는
+
+목표 진행률과
+
+추천 행동을 확인한다.
+
+---
+
+## Ledger (가계부)
+
+질문
+
+이번 달 돈을 어떻게 사용했는가?
+
+사용자는
+
+거래를 기록하고 관리한다.
+
+분석은 Dashboard가 담당한다.
+
+---
+
+## Management Principles
+
+질문
+
+나는 어떤 기준으로 돈을 관리하는가?
+
+사용자는
+
+자신의 자산관리 원칙을 설정한다.
+
+---
+
+# Dashboard Navigation
+
+Dashboard Widget를 클릭하면
+
+관련 화면으로 이동한다.
+
+예시
+
+순자산 Widget
+
+↓
+
+Asset
+
+----------------
+
+투자 Widget
+
+↓
+
+Investment
+
+----------------
+
+목표 Widget
+
+↓
+
+Goal
+
+----------------
+
+이번 달 소비
+
+↓
+
+Ledger
+
+----------------
+
+추천
+
+↓
+
+관련 화면
+
+---
+
+# Recommendation Flow
+
+사용자의 관리 원칙
+
++
+
+현재 데이터
+
+↓
+
+Recommendation Engine
+
+↓
+
+Dashboard
+
+↓
+
+사용자 판단
+
+↓
+
+관련 화면 이동
+
+Atlas는 자동으로 실행하지 않는다.
+
+---
+
+# Data Flow
+
+Ledger
+
+↓
+
+Asset
+
+↓
+
+Investment
+
+↓
+
+Goal
+
+↓
+
+Dashboard
+
+↓
+
+Recommendation
+
+↓
+
+User
+
+데이터는 Dashboard를 향해 흐른다.
+
+사용자는 Dashboard에서 다시 데이터를 탐색한다.
+
+---
+
+# First User Experience
+
+최초 실행
+
+↓
+
 Onboarding
 
 ↓
@@ -37,513 +324,121 @@ Dashboard
 
 ↓
 
-Asset
-
-↓
-
-Investment
-
-↓
-
-Goal
-
-↓
-
-Ledger
-
-↓
-
-Dashboard
-```
-
-Dashboard는 항상 사용자의 시작점이며, 모든 관리가 끝난 후 다시 Dashboard로 돌아온다.
-
----
-
-# User Flow Principles
-
-Atlas는 화면보다 사용자의 행동을 중심으로 설계한다.
-
-사용자는 다음 질문에 답하기 위해 Atlas를 실행한다.
-
-- 지금 얼마를 가지고 있지?
-- 내집마련은 얼마나 모였지?
-- 이번 달 돈을 너무 많이 썼나?
-- 지금 투자금을 더 넣어도 될까?
-
-모든 화면은 이 질문 중 하나에 답해야 한다.
-
----
-
-# First Launch
-
-최초 실행
-
-↓
-
-환영 화면
-
-↓
-
-서비스 소개
-
-↓
-
-기본 정보 입력
-
-↓
-
-목표 설정
-
-↓
-
-기본 Purpose 생성
+필요한 정보 등록
 
 ↓
 
 Dashboard
 
----
+Onboarding 이후
 
-# Onboarding
-
-사용자가 입력하는 정보
-
-- 이름(선택)
-- 기준 통화
-- 기본 목표
-- 월급일
-- 생활비 기준
-- 비상금 기준
-- 내집마련 목표
-- 투자 여부
-
-필수 입력은 최소화한다.
-
-나머지는 언제든 변경 가능해야 한다.
+Dashboard를 Home으로 사용한다.
 
 ---
 
-# Dashboard Flow
+# Platform Strategy
 
-Dashboard는 현재 상태를 보여주는 화면이다.
+## Desktop
 
-Dashboard에서는 수정하지 않는다.
+모든 기능 제공
 
-사용자는 Widget을 클릭하여 각 화면으로 이동한다.
-
-예)
-
-```
-Dashboard
-
-↓
-
-NetWorth Widget
-
-↓
-
-Asset
-```
+관리 중심
 
 ---
 
-```
-Dashboard
+## Mobile (V3)
 
-↓
+빠른 확인
 
-Goal Widget
+간단한 입력
 
-↓
+간단한 수정
 
-Goal
-```
+Dashboard 중심
 
 ---
 
-```
-Dashboard
+# Navigation Principles
 
-↓
+Dashboard는 항상 첫 화면이다.
 
-Investment Widget
-
-↓
-
-Investment
-```
-
----
-
-# Asset Flow
-
-Asset에서는 자산을 관리한다.
-
-```
-Asset
-
-↓
-
-자산 추가
-
-↓
-
-계좌 선택
-
-↓
-
-목적 선택
-
-↓
-
-금액 입력
-
-↓
-
-저장
-
-↓
-
-Dashboard 자동 반영
-```
-
----
-
-자산 수정
-
-```
-Asset
-
-↓
-
-자산 선택
-
-↓
-
-목적 변경
-
-↓
-
-저장
-
-↓
-
-Dashboard 자동 반영
-```
-
----
-
-# Investment Flow
-
-```
-Investment
-
-↓
-
-투자 등록
-
-↓
-
-종목 선택
-
-↓
-
-계좌 선택
-
-↓
-
-목적 선택
-
-↓
-
-저장
-
-↓
-
-Dashboard 자동 반영
-```
-
----
-
-투자 수정
-
-↓
-
-평가금액 변경
-
-↓
-
-Dashboard 자동 계산
-
----
-
-# Goal Flow
-
-```
-Goal
-
-↓
-
-목표 생성
-
-↓
-
-목표 금액 입력
-
-↓
-
-목표 날짜 입력
-
-↓
-
-저장
-```
-
-↓
-
-Dashboard 자동 반영
-
----
-
-목표 진행률은
-
-목적(Purpose)이 같은 자산을 자동 합산한다.
-
-사용자가 직접 계산하지 않는다.
-
----
-
-# Ledger Flow
-
-```
-Ledger
-
-↓
-
-거래 등록
-
-↓
-
-수입
-
-또는
-
-지출
-
-↓
-
-카테고리 선택
-
-↓
-
-저장
-```
-
-↓
-
-Dashboard 반영
-
-↓
-
-통계 반영
-
----
-
-# Recommendation Flow
-
-Dashboard
-
-↓
-
-Recommendation Widget
-
-↓
-
-관련 화면 이동
-
-↓
-
-사용자 수정
-
-↓
-
-Dashboard 업데이트
-
-예)
-
-생활비 계좌 잔액이 많습니다.
-
-↓
-
-예금으로 이동하세요.
-
-↓
-
-Asset
-
-↓
-
-목적 변경
-
-↓
-
-Dashboard
-
----
-
-# Purpose Change Flow
-
-Atlas의 핵심 기능
-
-```
-Asset
-
-↓
-
-자산 선택
-
-↓
-
-Purpose 변경
-
-↓
-
-저장
-
-↓
-
-Dashboard
-
-↓
-
-Goal
-
-↓
-
-Asset Allocation
-
-↓
-
-자동 갱신
-```
-
-사용자는 언제든 Purpose를 변경할 수 있다.
-
----
-
-# Navigation Flow
-
-Atlas는 메뉴 중심이 아니다.
-
-Widget 중심으로 이동한다.
-
-```
-Dashboard
-
-↓
-
-Widget Click
-
-↓
-
-Page
-```
-
-모든 화면은 Dashboard로 돌아갈 수 있어야 한다.
-
----
-
-# Error Flow
-
-입력 오류
-
-↓
-
-원인 표시
-
-↓
-
-수정
-
-↓
-
-저장
-
-에러 메시지는 사용자가 이해하기 쉬운 문장을 사용한다.
-
----
-
-# Empty State Flow
-
-데이터가 없는 경우
-
-↓
-
-안내 문구
-
-↓
-
-등록 버튼
-
-↓
-
-등록 화면
-
-예)
-
-"등록된 자산이 없습니다."
-
-↓
-
-[ 자산 추가 ]
-
----
-
-# Future User Flow
-
-향후 추가 예정
-
-- 자동 거래내역 동기화
-- 증권 API 연동
-- AI 추천
-- 소비 분석
-- 목표 예측
-
-Version 1에서는 포함하지 않는다.
-
----
-
-# UX Principles
+메뉴보다 Widget 이동을 우선한다.
 
 사용자는
 
-생각하지 않아야 한다.
+현재 상태를 보고
 
-클릭 횟수는 최소화한다.
+필요한 화면으로 이동한다.
 
-현재 위치를 쉽게 이해할 수 있어야 한다.
-
-모든 주요 기능은 Dashboard에서 시작한다.
+각 화면은 하나의 역할만 가진다.
 
 ---
 
-# Definition of Done
+# User Questions
 
-새로운 화면은
+Atlas는 다음 질문에 답해야 한다.
 
-□ User Flow를 따른다.
+Dashboard
 
-□ Dashboard와 연결된다.
+"지금 내 상태는?"
 
-□ Purpose 구조를 유지한다.
+----------------
 
-□ RuleBook을 따른다.
+Asset
+
+"내 돈은 어디에 있지?"
+
+----------------
+
+Investment
+
+"내 투자는 괜찮은가?"
+
+----------------
+
+Goal
+
+"목표까지 얼마나 남았지?"
+
+----------------
+
+Ledger
+
+"이번 달 얼마를 사용했지?"
+
+----------------
+
+Management Principles
+
+"나는 어떤 기준으로 관리하지?"
+
+---
+
+# UX Rules
+
+한 화면은
+
+하나의 질문만 해결한다.
+
+정보는 최소한으로 보여준다.
+
+사용자는
+
+생각보다 선택을 적게 한다.
+
+추천은
+
+Dashboard에서만 제공한다.
 
 ---
 
 # Version History
 
-v1.0
+## v1.1
 
-Initial User Flow
+- Dashboard First 구조 적용
+- Recommendation Flow 추가
+- Thinking Flow 중심으로 변경
+- Platform Strategy 추가
+- Navigation Principles 추가
+- User Questions 추가

@@ -1,38 +1,73 @@
 # Atlas Component System
 
-Version: 1.0
+Version: 1.1
 
 Status: Draft
 
+Owner: Project Atlas
+
 Related Documents
 
+- 00_StyleGuide.md
 - 01_DesignSystem.md
 - 03_Widget.md
+- 04_Dashboard.md
 
 ---
 
 # Purpose
 
-Atlas에서 사용하는 모든 UI Component의 규칙을 정의한다.
+Component는 Atlas UI를 구성하는 가장 작은 재사용 가능한 단위이다.
 
-모든 화면은 Component를 조합하여 구성한다.
+모든 화면은 Component를 조합하여 만들어진다.
 
-새로운 UI를 만들기 전에 기존 Component를 먼저 사용한다.
+Page
 
-Component는 재사용 가능해야 하며, 특정 화면에 종속되어서는 안 된다.
+↓
+
+Widget
+
+↓
+
+Component
+
+↓
+
+Design Token
+
+---
+
+# Component Philosophy
+
+Component는
+
+한 가지 역할만 수행해야 한다.
+
+하나의 Component가
+
+두 가지 이상의 책임을 가지면 안 된다.
 
 ---
 
 # Component Hierarchy
 
-Atlas는 다음 계층 구조를 따른다.
-
-```
-Primitive
+Foundation
 
 ↓
 
-Component
+Basic Component
+
+↓
+
+Financial Component
+
+↓
+
+Layout Component
+
+↓
+
+Complex Component
 
 ↓
 
@@ -41,548 +76,572 @@ Widget
 ↓
 
 Page
-```
 
 ---
 
-예시
+# Component Contract
 
-```
-Button
+모든 Component는 아래 구조를 따른다.
+
+Purpose
 
 ↓
 
-Action Button
+Props
 
 ↓
 
-Recommendation Widget
+Variants
 
 ↓
 
-Dashboard
-```
+States
+
+↓
+
+Interaction
+
+↓
+
+Accessibility
+
+↓
+
+Composition Rules
 
 ---
 
-# Design Principles
+# Foundation
 
-모든 Component는
+Foundation은 UI의 가장 기본 요소이다.
 
-- 재사용 가능해야 한다.
-- 독립적으로 동작해야 한다.
-- 상태(State)를 가져야 한다.
-- 화면에 종속되면 안 된다.
-- 하나의 역할만 수행한다.
+포함
 
----
+- Color
+- Typography
+- Spacing
+- Radius
+- Shadow
+- Motion
 
-# Primitive Components
-
-Primitive는 가장 작은 UI 단위이다.
-
-예)
-
-Button
-
-Input
-
-Checkbox
-
-Radio
-
-Toggle
-
-Chip
-
-Badge
-
-Divider
-
-Avatar
-
-Progress
-
-Icon
-
-Tooltip
-
-Spinner
-
-Skeleton
+Foundation은 DesignSystem과 StyleGuide에서 관리한다.
 
 ---
 
-# Layout Components
+# Basic Components
 
-레이아웃을 구성한다.
+## Button
 
-Container
+Purpose
 
-Section
+사용자의 행동을 실행한다.
 
-Stack
+Variants
 
-Grid
+- Primary
+- Secondary
+- Ghost
+- Danger
 
-Row
+States
 
-Column
+- Default
+- Hover
+- Focus
+- Disabled
+- Loading
 
-Spacer
+Usage
 
-Divider
-
-Card Container
-
-Scroll Area
-
----
-
-# Surface Components
-
-화면의 영역을 표현한다.
-
-Card
-
-Dialog
-
-Modal
-
-Bottom Sheet
-
-Popover
-
-Accordion
-
-Tab
-
-Collapse
-
-Panel
+- Primary Button은 한 화면에 최대 2개
+- Danger Button은 삭제 기능에서만 사용
 
 ---
 
-# Navigation Components
+## Input
 
-Navigation을 담당한다.
+Purpose
 
-Back Button
+사용자의 데이터를 입력받는다.
 
-Tab
+Variants
 
-Segment Control
+- Text
+- Number
+- Currency
+- Percentage
 
-Breadcrumb
+States
 
-Bottom Navigation
+- Empty
+- Filled
+- Error
+- Disabled
 
-Navigation Header
+Rule
 
----
+Placeholder는 설명이 아니다.
 
-# Data Components
-
-데이터를 표현한다.
-
-Statistic Card
-
-Value Card
-
-Chart Card
-
-Table
-
-Timeline
-
-Progress Card
-
-Goal Card
-
-Tag
-
-Status Badge
+Label은 항상 표시한다.
 
 ---
 
-# Input Components
+## Badge
 
-사용자 입력
+Purpose
 
-Text Input
+상태를 간단하게 표시한다.
 
-Number Input
+Examples
 
-Currency Input
-
-Date Picker
-
-Select Box
-
-Search
-
-Toggle
-
-Switch
-
-Slider
+- Active
+- Disabled
+- Completed
 
 ---
 
-# Feedback Components
+## Chip
 
-사용자 피드백
+Purpose
 
-Toast
+필터 또는 선택 상태를 표현한다.
 
-Snackbar
+Examples
 
-Alert
+- Purpose Toggle
+- Account Toggle
+- Investment Type
 
-Loading
+---
 
-Skeleton
+## Icon
 
-Empty State
+Library
 
-Confirmation Dialog
+Lucide
+
+Style
+
+Outline
+
+Rule
+
+아이콘은 의미 전달을 위한 보조 요소이다.
 
 ---
 
 # Financial Components
 
-Atlas 전용 Component
-
-Account Card
-
-Investment Card
-
-Asset Card
-
-Goal Card
-
-Recommendation Card
-
-Transaction Card
-
-Budget Card
-
-Portfolio Card
-
-Rule Card
+Atlas 전용 컴포넌트
 
 ---
 
-# Card Rules
+## Money
 
-Atlas는 Card 중심 UI를 사용한다.
+Purpose
 
-Card는
+금액 표시
 
-제목
+Props
+
+- value
+- currency
+- showSign
+
+States
+
+- Positive
+- Negative
+- Zero
+
+Rules
+
+- 오른쪽 정렬
+- 천 단위 구분
+- 통화 기호 표시
+
+Example
+
+₩82,350,000
+
+---
+
+## Percentage
+
+Purpose
+
+비율 표시
+
+States
+
+- Positive
+- Negative
+- Neutral
+
+Example
+
++12.35%
+
+---
+
+## Trend
+
+Purpose
+
+증감 표시
+
+Elements
+
+- Arrow
+- Value
+
+Examples
+
+▲ +120만원
+
+▼ -30만원
+
+---
+
+## Goal Progress
+
+Purpose
+
+목표 진행률 표시
+
+Elements
+
+- Progress Bar
+- Percentage
+- Current
+- Target
+
+---
+
+## Purpose Badge
+
+Purpose
+
+자산의 사용 목적 표시
+
+Examples
+
+생활비
+
+비상금
+
+내집마련
+
+장기투자
+
+---
+
+## Account Badge
+
+Purpose
+
+계좌 종류 표시
+
+Examples
+
+입출금
+
+예금
+
+ISA
+
+연금저축
+
+증권
+
+---
+
+# Layout Components
+
+## Card
+
+Purpose
+
+하나의 정보를 담는다.
+
+Rule
+
+Card 안에 Card를 중첩하지 않는다.
+
+---
+
+## Section
+
+Purpose
+
+관련 Card를 그룹화한다.
+
+---
+
+## Divider
+
+Purpose
+
+정보를 구분한다.
+
+---
+
+## Header
+
+Purpose
+
+페이지 제목과 주요 Action을 제공한다.
+
+---
+
+## Container
+
+Purpose
+
+레이아웃 폭을 제한한다.
+
+---
+
+# Complex Components
+
+복수의 Component를 조합한 컴포넌트
+
+---
+
+## NetWorthCard
+
+구성
+
+- Card
+- Money
+- Trend
+
+---
+
+## GoalCard
+
+구성
+
+- Card
+- Goal Progress
+
+---
+
+## InvestmentCard
+
+구성
+
+- Card
+- Money
+- Percentage
+
+---
+
+## RecommendationCard
+
+구성
+
+- Card
+- Icon
+- Button
+
+---
+
+# Composition Rules
+
+Component는 아래 방향으로만 조합할 수 있다.
+
+Foundation
 
 ↓
 
-내용
+Basic
 
 ↓
 
-보조 정보
+Financial
 
 ↓
 
-Action
-
-구조를 가진다.
-
----
-
-Card 예시
-
-```
-순자산
-
-82,000,000원
-
-▲ 2.3%
-
->
-
-```
-
----
-
-# Button Rules
-
-Primary
-
-가장 중요한 Action
-
-Secondary
-
-보조 Action
-
-Ghost
-
-텍스트 Action
-
-Danger
-
-삭제
-
-Icon
-
-아이콘 버튼
-
-Floating Button은 사용하지 않는다.
-
----
-
-# Input Rules
-
-Label은 항상 표시한다.
-
-Placeholder는 설명이 아니다.
-
-Validation은 입력 즉시 수행한다.
-
-에러 메시지는 Input 아래에 표시한다.
-
----
-
-# Table Rules
-
-가능하면 사용하지 않는다.
-
-반드시 필요한 경우에만 사용한다.
-
-모바일에서는 Card 형태로 변경한다.
-
----
-
-# Chart Rules
-
-기본
-
-Donut
+Layout
 
 ↓
 
-Bar
+Complex
 
 ↓
 
-Line
-
-차트에는 반드시
-
-Label
-
-Value
-
-단위를 표시한다.
-
-색상만으로 구분하지 않는다.
-
----
-
-# Empty State
-
-데이터가 없는 경우
-
-아이콘
+Widget
 
 ↓
 
-설명
+Page
 
-↓
-
-Action Button
-
-구조를 사용한다.
-
-예)
-
-아직 등록된 자산이 없습니다.
-
-[ 자산 추가 ]
-
----
-
-# Loading
-
-Skeleton 우선
-
-Spinner 최소화
-
----
-
-# Component Naming
-
-Component 이름은
-
-PascalCase
-
-사용
-
-예)
-
-NetWorthCard
-
-GoalCard
-
-AssetCard
-
-RecommendationCard
-
-InvestmentCard
-
----
-
-# Folder Structure
-
-```
-components/
-
-Button/
-
-Card/
-
-Input/
-
-Charts/
-
-Badge/
-
-Layout/
-
-Navigation/
-
-Financial/
-
-Feedback/
-```
-
----
-
-# Reuse Rules
-
-새로운 Component를 만들기 전에
-
-기존 Component를 검색한다.
-
-같은 기능이면
-
-수정한다.
-
-복사하지 않는다.
-
----
-
-# Component Checklist
-
-새 Component를 만들기 전에 확인
-
-□ 재사용 가능한가
-
-□ 특정 화면에 종속되지 않는가
-
-□ Widget에서도 사용할 수 있는가
-
-□ 이름이 명확한가
-
-□ 상태가 정의되어 있는가
-
-□ Design System을 따르는가
+역방향 참조는 금지한다.
 
 ---
 
 # Component States
 
+모든 Component는 가능한 경우 아래 상태를 지원한다.
+
+- Default
+- Hover
+- Focus
+- Disabled
+- Loading
+- Error
+
+지원하지 않는 경우 명시한다.
+
+---
+
+# Accessibility
+
+모든 Component는
+
+- Keyboard Navigation
+- Focus Visible
+- Screen Reader
+
+를 지원한다.
+
+색상만으로 상태를 표현하지 않는다.
+
+---
+
+# Figma Rules
+
+모든 Component는 Variant를 사용한다.
+
+예시
+
 Button
 
-Default
+- Type
+- Size
+- State
 
-Hover
+Chip
 
-Pressed
+- Selected
+- Unselected
 
-Disabled
+Money
 
-Loading
-
-Success
-
-Danger
-
----
-
-Card
-
-Default
-
-Hover
-
-Selected
-
-Disabled
-
-Loading
+- Positive
+- Negative
+- Neutral
 
 ---
 
-Input
+# React Rules
 
-Default
+Component는 하나의 파일로 관리한다.
 
-Focused
+예시
 
-Typing
+Button.tsx
 
-Error
+Money.tsx
 
-Disabled
+GoalProgress.tsx
 
-Success
+RecommendationCard.tsx
+
+---
+
+# Naming Rules
+
+Component
+
+PascalCase
+
+Props
+
+camelCase
+
+Boolean
+
+isEnabled
+
+hasValue
+
+canEdit
+
+---
+
+# Folder Structure
+
+/components
+
+/ui
+
+- Button
+- Input
+- Badge
+- Chip
+- Icon
+
+/financial
+
+- Money
+- Percentage
+- Trend
+- GoalProgress
+- PurposeBadge
+- AccountBadge
+
+/layout
+
+- Card
+- Container
+- Header
+- Section
+- Divider
+
+/complex
+
+- NetWorthCard
+- GoalCard
+- InvestmentCard
+- RecommendationCard
 
 ---
 
 # Future Components
 
-Timeline
+Version 1.2
 
-Heatmap
+- ChartCard
+- BudgetCard
+- MonthlyReportCard
 
-Calendar
+Version 2
 
-AI Recommendation
-
-Portfolio Allocation
-
-Goal Progress
-
-Consumption Analysis
-
-Asset Flow
+- AIRecommendationCard
+- ScenarioCard
+- SimulationCard
 
 ---
 
-## Platform Strategy
-Component는
+# Review Checklist
 
-Responsive를 지원해야 한다.
+- [ ] 하나의 역할만 수행하는가?
+- [ ] 재사용 가능한가?
+- [ ] Widget에 종속되지 않는가?
+- [ ] Accessibility를 지원하는가?
+- [ ] Figma Variant로 표현 가능한가?
+- [ ] React에서 독립 Component로 구현 가능한가?
+- [ ] Composition Rule을 위반하지 않는가?
 
-하지만
-
-Desktop Layout과
-
-Mobile Layout은
-
-동일할 필요는 없다.
+---
 
 # Version History
 
-v1.0
+## v1.0
 
-Initial Component System
+- Initial Component System
+- Financial Components 정의
+- Component Contract 정의
+- Composition Rules 정의

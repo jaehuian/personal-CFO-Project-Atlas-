@@ -1,48 +1,103 @@
 # Atlas Widget System
 
-Version: 1.0
+Version: 1.1
 
 Status: Draft
 
+Owner: Project Atlas
+
 Related Documents
 
+- 00_StyleGuide.md
 - 01_DesignSystem.md
 - 02_Component.md
 - 04_Dashboard.md
-- 05_Asset.md
-- 06_Investment.md
 
 ---
 
 # Purpose
 
-Widget은 Atlas의 가장 작은 기능 단위이다.
+Widget는 Atlas의 핵심 기능 단위이다.
 
-모든 화면(Page)은 Widget을 조합하여 구성한다.
+Page는 Widget를 조합하여 만들어지며,
 
-Widget은 특정 화면에 종속되지 않는다.
+Widget는 Component를 조합하여 만들어진다.
 
-하나의 Widget은 하나의 역할만 수행한다.
+Page
+
+↓
+
+Widget
+
+↓
+
+Component
+
+↓
+
+Design Token
 
 ---
 
 # Widget Philosophy
 
-Atlas는 Page 중심이 아니라 Widget 중심으로 설계한다.
+Widget는
 
-Page는 Widget을 배치하는 공간이다.
+하나의 질문(Question)에 답해야 한다.
 
-Widget은 여러 화면에서 재사용될 수 있어야 한다.
+질문이 두 개 이상이라면
+
+Widget를 분리한다.
+
+---
+
+# Widget Contract
+
+모든 Widget는 아래 구조를 가진다.
+
+Question
+
+↓
+
+Primary KPI
+
+↓
+
+Secondary KPI (Optional)
+
+↓
+
+Insight (Optional)
+
+↓
+
+Action
+
+↓
+
+Target Page
+
+---
+
+# Widget Rules
+
+Widget는
+
+하나의 역할만 수행한다.
+
+Widget는
+
+독립적으로 재사용 가능해야 한다.
+
+Widget는
+
+Page를 알지 못한다.
+
+Navigation은 부모(Page)가 처리한다.
 
 ---
 
 # Widget Hierarchy
-
-```
-
-Primitive
-
-↓
 
 Component
 
@@ -54,483 +109,417 @@ Widget
 
 Page
 
-```
+Widget는 Component를 포함하지만,
 
----
-
-예시
-
-```
-
-Text
-
-↓
-
-Card
-
-↓
-
-NetWorth Widget
-
-↓
-
-Dashboard
-
-```
-
----
-
-# Widget Rules
-
-모든 Widget은
-
-- 독립적으로 동작한다.
-- 하나의 목적만 가진다.
-- 재사용 가능해야 한다.
-- 다른 Widget에 의존하지 않는다.
-- 상태(State)를 가진다.
-- 클릭 가능한 경우 이동 위치를 정의한다.
-
----
-
-# Widget Layout
-
-모든 Widget은 다음 구조를 가진다.
-
-```
-
-Header
-
-↓
-
-Content
-
-↓
-
-Footer(Optional)
-
-↓
-
-Action(Optional)
-
-```
-
----
-
-# Widget Size
-
-Widget는 크기를 가진다.
-
-Small
-
-Medium
-
-Large
-
-Full Width
-
-모든 Widget은 반응형을 지원한다.
-
----
-
-# Widget Categories
-
-Atlas Widget은 다음과 같이 분류한다.
-
----
-
-## Summary Widgets
-
-현재 상태를 보여준다.
-
-예)
-
-- Net Worth
-- Monthly Income
-- Monthly Expense
-- Investment Value
-
----
-
-## Progress Widgets
-
-목표 진행률을 보여준다.
-
-예)
-
-- Goal Progress
-- House Progress
-- Savings Progress
-- Investment Progress
-
----
-
-## Analysis Widgets
-
-데이터를 분석한다.
-
-예)
-
-- Asset Allocation
-- Monthly Report
-- Expense Analysis
-- Income Analysis
-
----
-
-## Recommendation Widgets
-
-다음 행동을 제안한다.
-
-예)
-
-- Recommendation
-- Warning
-- Opportunity
-
----
-
-## Navigation Widgets
-
-다른 화면으로 이동한다.
-
-예)
-
-- Quick Action
-- Shortcut
-- Favorite
-
----
-
-## Financial Widgets
-
-금융 정보를 표현한다.
-
-예)
-
-- Account Summary
-- Investment Summary
-- Portfolio
-- Bond Summary
-
----
-
-# Standard Widgets
-
-Version 1에서 사용하는 Widget
-
----
-
-## Net Worth Widget
-
-목적
-
-현재 순자산 표시
-
-정보
-
-- 순자산
-- 증감액
-- 증감률
-
-Click
-
-Asset 화면
-
----
-
-## Asset Allocation Widget
-
-목적
-
-자산 비중 표시
-
-지원
-
-- 목적 기준
-- 계좌 기준
-
-Chart
-
-Donut Chart
-
-Click
-
-Asset 화면
-
----
-
-## Goal Progress Widget
-
-목적
-
-목표 달성률 표시
-
-정보
-
-- 목표 금액
-- 현재 금액
-- 진행률
-
-Click
-
-Goal 화면
-
----
-
-## Recommendation Widget
-
-목적
-
-사용자가 지금 해야 할 행동 제안
-
-예)
-
-생활계좌 잔액이 많습니다.
-
-↓
-
-예금으로 이동하세요.
-
-또는
-
-ISA 추가 납입 가능합니다.
-
-또는
-
-이번 달 소비가 높습니다.
-
-Click
-
-관련 화면
-
----
-
-## Monthly Summary Widget
-
-이번 달 요약
-
-수입
-
-지출
-
-저축
-
-투자
-
----
-
-## Investment Widget
-
-투자 현황
-
-ETF
-
-채권
-
-코인
-
-평가금액
-
-수익률
-
-Click
-
-Investment
-
----
-
-## Recent Transaction Widget
-
-최근 거래
-
-최근 입출금
-
-최근 투자
-
-최근 소비
-
-Click
-
-Ledger
-
----
-
-## Goal Widget
-
-목표 카드
-
-목표
-
-현재
-
-남은 금액
-
-예상 달성일
-
----
-
-## Quick Add Widget
-
-빠른 등록
-
-자산
-
-투자
-
-거래
-
----
-
-# Widget State
-
-Default
-
-Loading
-
-Empty
-
-Success
-
-Warning
-
-Error
-
----
-
-# Widget Interaction
-
-Hover
-
-약한 Shadow
-
-Click
-
-Page 이동
-
-Loading
-
-Skeleton
-
-Animation
-
-150~250ms
-
----
-
-# Widget Communication
-
-Widget은 직접 통신하지 않는다.
-
-모든 데이터는 중앙 Store를 통해 전달한다.
-
-예)
-
-Asset Allocation Widget
-
-↓
-
-Global Store
-
-↓
-
-Investment Widget
-
----
-
-# Widget Refresh
-
-Widget은 개별적으로 새로고침 가능해야 한다.
-
-Dashboard 전체를 새로고침하지 않는다.
-
----
-
-# Widget Configuration
-
-Widget은 설정을 가진다.
-
-예)
-
-Asset Allocation
-
-보기 기준
-
-● 목적
-
-○ 계좌
-
----
-
-Goal Widget
-
-기간
-
-1년
-
-5년
-
-전체
-
----
-
-Investment Widget
-
-보기
-
-전체
-
-ETF
-
-채권
-
-코인
+Page를 포함하지 않는다.
 
 ---
 
 # Widget Priority
 
-Dashboard에서 중요도
+## High
 
-1
+사용자가 매일 확인하는 정보
 
-Recommendation
+예)
 
-2
-
-Net Worth
-
-3
-
-Goal Progress
-
-4
-
-Asset Allocation
-
-5
-
-Investment
-
-6
-
-Monthly Summary
-
-7
-
-Recent Transaction
+- Net Worth
+- Recommendation
 
 ---
 
-# Widget Naming
+## Medium
 
-Widget 이름은
-
-PascalCase
-
-사용
+자주 확인하는 정보
 
 예)
+
+- Goal
+- Investment
+- Asset Allocation
+
+---
+
+## Low
+
+참고 정보
+
+예)
+
+- Monthly Spending
+- Recent Transactions
+
+---
+
+# Standard Widget Structure
+
+모든 Widget는 아래 레이아웃을 따른다.
+
+```
+Title
+
+↓
+
+Primary KPI
+
+↓
+
+Secondary KPI
+
+↓
+
+Action
+```
+
+복잡한 Widget도 이 구조를 유지한다.
+
+---
+
+# Widget List
+
+## Net Worth Widget
+
+Question
+
+현재 내 자산은 얼마인가?
+
+Primary KPI
+
+순자산
+
+Secondary KPI
+
+이번 달 증감
+
+Action
+
+Asset 이동
+
+Priority
+
+High
+
+Components
+
+- Card
+- Money
+- Trend
+
+---
+
+## Recommendation Widget
+
+Question
+
+지금 무엇을 해야 하는가?
+
+Primary KPI
+
+추천 내용
+
+Secondary KPI
+
+추천 이유
+
+Action
+
+관련 화면 이동
+
+Priority
+
+High
+
+Components
+
+- Card
+- Icon
+- Button
+
+---
+
+## Asset Allocation Widget
+
+Question
+
+내 자산은 어떻게 구성되어 있는가?
+
+Primary KPI
+
+도넛 차트
+
+Secondary KPI
+
+Purpose / Account Toggle
+
+Action
+
+Asset 이동
+
+Priority
+
+Medium
+
+Components
+
+- Card
+- Donut Chart
+- Chip
+
+---
+
+## Goal Widget
+
+Question
+
+목표까지 얼마나 남았는가?
+
+Primary KPI
+
+진행률
+
+Secondary KPI
+
+현재 / 목표 금액
+
+Action
+
+Goal 이동
+
+Priority
+
+Medium
+
+Components
+
+- Card
+- Goal Progress
+
+---
+
+## Investment Widget
+
+Question
+
+현재 투자는 어떤 상태인가?
+
+Primary KPI
+
+총 평가금액
+
+Secondary KPI
+
+총 수익률
+
+Action
+
+Investment 이동
+
+Priority
+
+Medium
+
+Components
+
+- Card
+- Money
+- Percentage
+
+---
+
+## Ledger Widget
+
+Question
+
+이번 달 얼마나 사용했는가?
+
+Primary KPI
+
+총 지출
+
+Secondary KPI
+
+지난달 대비
+
+Action
+
+Ledger 이동
+
+Priority
+
+Low
+
+Components
+
+- Card
+- Money
+- Trend
+
+---
+
+# Widget State
+
+모든 Widget는 다음 상태를 가진다.
+
+- Loading
+- Empty
+- Ready
+- Error
+
+---
+
+# Empty State Rules
+
+Widget는
+
+"데이터가 없습니다."
+
+를 표시하지 않는다.
+
+항상 다음 행동(Action)을 함께 제공한다.
+
+예)
+
+계좌가 없습니다.
+
+↓
+
+[계좌 등록]
+
+---
+
+# Loading Rules
+
+Skeleton 사용
+
+Spinner 최소화
+
+---
+
+# Interaction Rules
+
+Widget 전체를 클릭 가능하게 만든다.
+
+Hover
+
+↓
+
+Shadow
+
+↓
+
+Pointer Cursor
+
+Action Button이 있는 경우
+
+Button이 우선한다.
+
+---
+
+# Navigation Rules
+
+Widget는
+
+Target Page만 가진다.
+
+Page 이동은 Router가 처리한다.
+
+Widget 내부에서 Navigation을 수행하지 않는다.
+
+---
+
+# Composition Rules
+
+Widget는
+
+Component를 조합하여 만든다.
+
+Widget끼리는 중첩하지 않는다.
+
+예)
+
+NetWorth Widget
+
+↓
+
+Card
+
+Money
+
+Trend
+
+Button
+
+---
+
+# Responsive Rules
+
+Desktop
+
+모든 정보 표시
+
+Tablet
+
+Secondary KPI 일부 축약
+
+Mobile
+
+Primary KPI 중심
+
+Action 유지
+
+기능은 동일하게 유지한다.
+
+표현만 변경한다.
+
+---
+
+# Accessibility
+
+Keyboard Navigation 지원
+
+Focus Visible 지원
+
+Screen Reader 지원
+
+Widget Title을 항상 제공한다.
+
+---
+
+# Figma Rules
+
+Widget는 하나의 Component Set으로 관리한다.
+
+Variant
+
+- State
+- Size
+- Theme (Future)
+
+Auto Layout 사용
+
+---
+
+# React Rules
+
+Widget는 독립 폴더를 가진다.
+
+예)
+
+widgets/
+
+NetWorthWidget/
+
+RecommendationWidget/
+
+GoalWidget/
+
+AssetAllocationWidget/
+
+---
+
+# Folder Structure
+
+/widgets
 
 NetWorthWidget
 
@@ -540,122 +529,49 @@ GoalWidget
 
 InvestmentWidget
 
+LedgerWidget
+
 AssetAllocationWidget
-
----
-
-# Widget Folder
-
-```
-
-widgets/
-
-NetWorth/
-
-AssetAllocation/
-
-Recommendation/
-
-Investment/
-
-Goal/
-
-MonthlySummary/
-
-QuickAdd/
-
-```
 
 ---
 
 # Future Widgets
 
-AI Report
+Version 1.2
 
-Cash Flow
+- Monthly Report Widget
+- Spending Analysis Widget
 
-Tax Report
+Version 2
 
-Retirement Forecast
+- AI Recommendation Widget
+- Simulation Widget
 
-Risk Analysis
+Version 3
 
-Portfolio Score
-
-Expense Prediction
-
-Market News
+- Mobile Quick Action Widget
 
 ---
 
-# Widget Checklist
+# Review Checklist
 
-새 Widget을 만들기 전에
-
-□ 하나의 역할만 수행하는가
-
-□ 재사용 가능한가
-
-□ 다른 Widget에 의존하지 않는가
-
-□ Component만 사용했는가
-
-□ Dashboard 외에서도 사용할 수 있는가
-
-□ 클릭 동작이 정의되어 있는가
-
-□ Empty 상태가 있는가
-
-□ Loading 상태가 있는가
+- [ ] 하나의 질문에만 답하는가?
+- [ ] Component만 조합하는가?
+- [ ] Widget를 중첩하지 않는가?
+- [ ] Dashboard 철학과 일치하는가?
+- [ ] 독립적으로 재사용 가능한가?
+- [ ] Navigation이 분리되어 있는가?
+- [ ] Empty State가 Action을 제공하는가?
 
 ---
-
-# Widget Design Principles
-
-Widget은
-
-예쁜 카드가 아니다.
-
-Widget은
-
-사용자의 하나의 질문에 답하는 기능이다.
-
-예)
-
-"나는 지금 얼마를 가지고 있지?"
-
-↓
-
-NetWorth Widget
-
-"내집마련은 얼마나 진행됐지?"
-
-↓
-
-Goal Progress Widget
-
-"다음에 뭘 해야 하지?"
-
-↓
-
-Recommendation Widget
-
----
-## Platform Strategy
-Widget는
-
-Desktop에서는
-
-Large Card
-
-Mobile에서는
-
-Compact Card
-
-로 변경될 수 있다.
 
 # Version History
 
-v1.0
+## v1.1
 
-Initial Widget System
+- Widget Contract 추가
+- Widget Priority 추가
+- Insight 개념 추가
+- Navigation Rule 추가
+- Responsive Rule 추가
+- Dashboard 구조와 통합

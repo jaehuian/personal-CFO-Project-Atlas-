@@ -1,6 +1,6 @@
-# Atlas Rule Book
+# Atlas RuleBook
 
-Version: 1.0
+Version: 1.1
 
 Status: Draft
 
@@ -8,381 +8,332 @@ Owner: Project Atlas
 
 Related Documents
 
+- README.md
+- 00_Common/01_Glossary.md
 - 01_Vision.md
 - 03_UserFlow.md
-- 01_DesignSystem.md
 
 ---
 
 # Purpose
 
-이 문서는 Atlas가 자산을 관리하고 사용자에게 정보를 제공하는 모든 핵심 규칙(Business Rules)을 정의한다.
+RuleBook은 Atlas의 설계 원칙을 정의한다.
 
-모든 기능은 본 문서의 규칙을 따른다.
+모든 기획, 디자인, 개발은 본 문서를 기준으로 판단한다.
 
-새로운 기능을 추가할 때는 반드시 RuleBook을 먼저 검토한다.
-
----
-
-# Rule Philosophy
-
-Atlas는 데이터를 저장하는 프로그램이 아니다.
-
-Atlas는 규칙(Rule)을 기반으로 사용자의 자산을 관리하는 프로그램이다.
-
-모든 화면과 기능은 동일한 Rule을 공유한다.
+기능 추가 또는 변경 시 RuleBook을 우선 검토한다.
 
 ---
 
-# Core Rules
+# Core Principles
 
-## Rule 01
+## 1. Goal First
 
-모든 자산은 반드시 하나의 목적(Purpose)을 가진다.
+모든 기능은 사용자의 목표 달성을 돕기 위해 존재한다.
 
-허용되는 목적 예시
+자산은 목적(Purpose)을 가지며,
 
-- 생활비
-- 비상금
-- 내집마련
-- 장기투자
-- 노후준비
-- 기타
-
-목적이 없는 자산은 존재할 수 없다.
+Purpose는 Goal과 연결된다.
 
 ---
 
-## Rule 02
+## 2. Dashboard First
 
-모든 자산은 하나의 계좌(Account)에 속한다.
+Dashboard는 Atlas의 시작 화면이다.
 
-예)
+사용자는 Dashboard 하나만으로
 
-국민은행
-
-신한은행
-
-한국투자증권
-
-코인원
-
-바이낸스
-
-ISA
-
-연금저축
+현재 상태와 다음 행동을 이해할 수 있어야 한다.
 
 ---
 
-## Rule 03
+## 3. Recommendation over Automation
 
-하나의 계좌에는 여러 자산이 존재할 수 있다.
+Atlas는 자동으로 행동하지 않는다.
 
-예)
+추천을 제공하지만,
 
-한국투자 ISA
+최종 결정은 항상 사용자가 내린다.
 
-↓
-
-QQQ
-
-↓
-
-금 ETF
-
-↓
-
-채권 ETF
+자동 실행은 V1 범위에 포함하지 않는다.
 
 ---
 
-## Rule 04
+## 4. Simplicity First
 
-하나의 자산은 하나의 목적만 가진다.
+복잡한 기능보다
 
-동일한 자산을 여러 목적에 동시에 사용할 수 없다.
+이해하기 쉬운 경험을 우선한다.
 
-필요한 경우 사용자가 목적을 변경한다.
-
----
-
-## Rule 05
-
-목적은 언제든지 변경할 수 있다.
-
-예)
-
-QQQ
-
-내집마련
-
-↓
-
-장기투자
-
-↓
-
-Dashboard와 Goal은 자동 갱신된다.
+설정보다 좋은 기본값(Default)을 제공한다.
 
 ---
 
-## Rule 06
+## 5. Desktop First
 
-모든 금액은 현재 평가금액(Market Value)을 기준으로 계산한다.
+Atlas는 생산성 도구이다.
 
-매수금액은 기록용으로만 사용한다.
+Desktop을 기준으로 설계한다.
 
-순자산
-
-목표 진행률
-
-자산 비중
-
-Dashboard
-
-모두 평가금액 기준이다.
+모바일은 Companion App으로 제공한다.
 
 ---
 
-## Rule 07
+## 6. Consistency over Uniformity
 
-원화(KRW)를 기준 통화로 사용한다.
+모든 화면이 같은 형태일 필요는 없다.
 
-외화 및 암호화폐는 실시간 환율을 적용하여 원화로 환산한다.
+하지만 동일한 경험을 제공해야 한다.
 
----
-
-## Rule 08
-
-Dashboard는 항상 요약 정보만 표시한다.
-
-상세 정보는 각 화면에서 확인한다.
+기능보다 사용 목적이 우선이다.
 
 ---
 
-## Rule 09
+## 7. Template First
 
-같은 데이터는 한 곳에서만 관리한다.
+사용자가 직접 규칙을 만드는 것보다
 
-중복 데이터를 저장하지 않는다.
+Atlas가 준비한 Template를 우선 제공한다.
 
-모든 화면은 동일한 데이터를 참조한다.
-
----
-
-## Rule 10
-
-모든 추천(Action Recommendation)은 Rule을 기반으로 생성된다.
-
-추천은 AI가 아니라 규칙을 먼저 따른다.
+직접 생성 기능은 V2 이후 지원한다.
 
 ---
 
-# Asset Rules
+# Data Principles
 
-자산은 다음과 같이 분류한다.
+## Purpose
 
-입출금
+모든 자산은 반드시 하나의 Purpose를 가진다.
 
-예적금
-
-투자
-
-연금
-
-기타
+Purpose는 Atlas의 핵심 데이터이다.
 
 ---
 
-투자는
+## Account
 
-주식
+Account는 자산의 저장 위치이다.
 
-ETF
-
-채권
-
-코인
-
-현금성 자산
-
-등으로 다시 분류할 수 있다.
+Purpose와 동일한 개념이 아니다.
 
 ---
 
-# Goal Rules
+## Goal
 
-모든 목표는
+Goal은 Purpose와 연결된다.
 
-목표 금액
-
-현재 금액
-
-목표 날짜
-
-를 가진다.
-
-현재 금액은
-
-목적이 같은 자산의 합계이다.
+Goal은 Asset를 직접 관리하지 않는다.
 
 ---
 
-예)
+## Transfer Rule
 
-내집마련
+이체는
 
-↓
+- 수입이 아니다.
+- 지출이 아니다.
 
-예금
-
-↓
-
-채권
-
-↓
-
-ETF
-
-↓
-
-BTC
-
-↓
-
-자동 합산
+이체는 자산의 위치만 변경한다.
 
 ---
 
-# Investment Rules
+## Market Value Rule
 
-투자는
+모든 진행률과 자산 비중은
 
-평가금액
+평가금액(Market Value)을 기준으로 계산한다.
 
-기준으로 관리한다.
-
-매수금액은 손익 계산에만 사용한다.
+매수금액은 투자 분석에만 사용한다.
 
 ---
 
-# Dashboard Rules
+# UX Principles
+
+## Dashboard
+
+Dashboard에서는
+
+데이터를 직접 수정하지 않는다.
 
 Dashboard는
 
-현재 상태를 보여주는 화면이다.
-
-Dashboard에서 데이터를 수정하지 않는다.
-
-모든 수정은 해당 화면에서 수행한다.
+현재 상태와 추천만 제공한다.
 
 ---
 
-# Account Rules
+## Asset
 
-계좌는 저장 위치이다.
+Asset는
 
-계좌는 목적이 아니다.
+"내 돈은 어디에 있는가?"
 
-목적은 언제든지 변경될 수 있다.
+를 보여준다.
 
 ---
 
-# Purpose Rules
+## Investment
 
-Purpose는 Atlas의 가장 중요한 개념이다.
+Investment는
 
-Purpose는 사용자의 의도를 의미한다.
+"내 투자는 건강한가?"
 
-예)
+를 보여준다.
 
-생활
+---
 
-내집마련
+## Goal
 
-노후
+Goal은
 
-장기투자
+"목표까지 얼마나 남았는가?"
 
-비상금
+를 보여준다.
 
-기타
+---
 
-Purpose는 자유롭게 생성 및 수정할 수 있다.
+## Ledger
 
-시스템 기본 Purpose는 삭제할 수 없다.
+Ledger는
+
+거래를 기록한다.
+
+분석은 Dashboard가 담당한다.
+
+---
+
+## Management Principles
+
+사용자는 Rule를 만드는 것이 아니라
+
+자신만의 관리 원칙을 설정한다.
 
 ---
 
 # Recommendation Rules
 
-추천 기능은 다음 순서로 판단한다.
+Recommendation은 다음 우선순위를 따른다.
 
-1. Rule 기반 판단
+1. 사용자 관리 원칙
+2. 시스템 기본 원칙
+3. 일반 추천
 
-2. 사용자 설정(My Rules)
+Recommendation은 항상
 
-3. AI 분석 (향후)
+사용자가 무시할 수 있어야 한다.
 
 ---
 
-# Data Rules
+# Version Rules
 
-모든 데이터는 하나의 Source of Truth를 가진다.
+Version 1
 
-화면마다 별도의 계산을 하지 않는다.
+필수 기능만 구현한다.
+
+Version 1.2
+
+사용성을 개선한다.
+
+Version 2
+
+고급 관리 기능을 추가한다.
+
+Version 3
+
+모바일 Companion App을 지원한다.
+
+---
+
+# Scope Rules
+
+새로운 기능은 다음 질문을 통과해야 한다.
+
+- Goal 달성에 도움이 되는가?
+- Dashboard와 연결되는가?
+- V1 범위를 벗어나지 않는가?
+- 사용자가 쉽게 이해할 수 있는가?
+
+하나라도 "아니오"라면 V2 이후로 연기한다.
 
 ---
 
 # Design Rules
 
-디자인보다 이해하기 쉬운 정보 전달을 우선한다.
+모든 화면은
 
-복잡한 기능은 단계적으로 제공한다.
+- Widget 기반
+- Card 기반
+- White Space 중심
+- 최소한의 설정
+
+을 따른다.
+
+---
+
+# Naming Rules
+
+사용자에게 보여지는 용어와
+
+개발 용어를 구분한다.
+
+예)
+
+UI
+
+관리 원칙
+
+↓
+
+Code
+
+Rule
+
+---
+
+# Platform Rules
+
+Desktop
+
+Primary Platform
+
+모든 기능 제공
+
+---
+
+Mobile
+
+Companion Platform
+
+조회
+
+간단한 입력
+
+간단한 수정
+
+복잡한 관리 기능은 Desktop에서만 제공한다.
 
 ---
 
 # Future Rules
 
-향후 추가 예정
+향후 추가될 기능도
 
-- 자동 투자 Rule
-- 소비 분석 Rule
-- 목표 예측 Rule
-- 리스크 분석 Rule
-- AI Recommendation Rule
+본 RuleBook을 우선 따른다.
 
----
+새로운 기능이 RuleBook과 충돌한다면
 
-# Rule Priority
-
-충돌 시 우선순위
-
-1. Rule Book
-
-2. User Rules
-
-3. Application Settings
-
-4. Default Values
-
----
-
-# Definition of Done
-
-새로운 기능은
-
-□ RuleBook에 위배되지 않아야 한다.
-
-□ 새로운 Rule이 필요하면 RuleBook을 먼저 수정한다.
-
-□ UI보다 Rule이 우선한다.
+기능보다 RuleBook을 우선 수정한다.
 
 ---
 
 # Version History
 
-v1.0
+## v1.1
 
-Initial Rule Book
+- Desktop First 원칙 추가
+- Mobile Companion 전략 추가
+- Recommendation Rule 추가
+- Template First 원칙 추가
+- Transfer Rule 추가
+- Market Value Rule 추가
+- Scope Rule 추가
+- Version Rule 추가
+- Naming Rule 추가

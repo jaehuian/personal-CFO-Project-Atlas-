@@ -1,4 +1,4 @@
-# My Rules Page Specification
+# Management Principles Page Specification
 
 Version: 2.0
 
@@ -6,52 +6,74 @@ Status: Draft
 
 Owner: Project Atlas
 
+Display Name: 관리 원칙
+
 Related Documents
 
-- 01_Vision.md
-- 02_RuleBook.md
-- 03_UserFlow.md
+- 00_StyleGuide.md
+- 01_DesignSystem.md
+- 02_Component.md
+- 03_Widget.md
 - 04_Dashboard.md
-- 05_Asset.md
-- 06_Investment.md
-- 07_Goal.md
-- 08_Ledger.md
+- ../01_Product/01_Vision.md
+- ../01_Product/02_RuleBook.md
+- ../01_Product/03_UserFlow.md
 
 ---
 
 # Purpose
 
-My Rules는 사용자의 자산관리 원칙을 설정하는 화면이다.
+Management Principles는
 
-Atlas는 사용자가 입력한 원칙을 기반으로 Dashboard에서 추천을 생성한다.
+사용자의 자산관리 기준을 설정하는 화면이다.
 
-Version 1에서는 Rule를 자동 실행하지 않는다.
+Atlas는 사용자의 원칙을 기억하고,
 
-사용자가 직접 판단하고 실행할 수 있도록 돕는다.
+Recommendation을 생성할 때 이를 우선적으로 사용한다.
 
----
-
-# Goals
-
-사용자는
-
-"나는 돈을 이렇게 관리한다."
-
-라는 자신의 기준을 쉽고 빠르게 설정할 수 있어야 한다.
+Rule는 자동 실행되지 않는다.
 
 ---
 
 # Design Philosophy
 
-사용자는 Rule를 만들지 않는다.
+Management Principles는
 
-사용자는 자신의 관리 기준을 설정한다.
+설정 화면이 아니다.
 
-Atlas는 그 기준을 이해하여 추천을 생성한다.
+Atlas에게
+
+"나는 이렇게 돈을 관리한다."
+
+를 알려주는 화면이다.
 
 ---
 
-# Screen Layout
+# User Question
+
+사용자는 이 화면에서 다음 질문에 답할 수 있어야 한다.
+
+- 나는 어떤 기준으로 돈을 관리하는가?
+- Atlas는 어떤 기준으로 추천하는가?
+- 현재 적용 중인 원칙은 무엇인가?
+
+---
+
+# Screen Responsibilities
+
+Management Principles는
+
+- Rule 조회
+- Rule 활성화 / 비활성화
+- Rule 값 수정
+
+을 담당한다.
+
+Rule 생성은 Version 2 이후 지원한다.
+
+---
+
+# Layout
 
 ```
 Header
@@ -62,11 +84,11 @@ Rule Summary
 
 ↓
 
-Template Gallery
+Rule Category
 
 ↓
 
-My Rules
+Rule List
 
 ↓
 
@@ -75,60 +97,36 @@ Rule Detail
 
 ---
 
-# Wireframe
+# Layout Structure
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│ ← Dashboard                            나의 원칙          │
-├────────────────────────────────────────────────────────────┤
+┌────────────────────────────────────────────┐
 
-현재 적용 중인 원칙
-
-5개
-
-────────────────────────────────────────────────────────────
-
-새 원칙 추가
-
-🏠 내집마련
-
-💰 생활비
-
-🛡 비상금
-
-📈 투자
-
-💾 저축
-
-⚙ 직접 만들기
-
-────────────────────────────────────────────────────────────
-
-적용 중인 원칙
+관리 원칙
 
 ────────────────────────────────────────────
 
-💰 생활비
+활성 Rule
 
-100만원 유지
-
->
+12개
 
 ────────────────────────────────────────────
 
-🛡 비상금
+생활
 
-500만원 목표
+투자
 
->
+목표
+
+기타
 
 ────────────────────────────────────────────
 
-🏠 내집마련
+Rule List
 
-4억원 목표
+────────────────────────────────────────────
 
->
+Rule Detail
 
 ```
 
@@ -138,191 +136,176 @@ Rule Detail
 
 표시 정보
 
-- 적용 중인 원칙 개수
-- 기본 원칙 개수
-- 사용자 생성 원칙 개수
+- 활성 Rule 개수
+- 비활성 Rule 개수
+
+Summary는 읽기 전용이다.
 
 ---
 
-# Template Gallery
+# Rule Categories
 
-Version 1에서 제공하는 기본 템플릿
+Version 1
 
-- 생활비 관리
-- 비상금 관리
-- 내집마련
-- 투자 관리
-- 저축 목표
-- 직접 만들기
+생활
 
-Template를 선택하면 바로 설정 화면으로 이동한다.
+투자
 
----
+목표
 
-# Rule Templates
+기타
 
-## 생활비 관리
-
-질문
-
-생활계좌에 얼마를 남겨두시겠습니까?
-
-입력
-
-금액
-
-추천 예시
-
-생활계좌 잔액이 목표보다 많습니다.
-
-예금으로 이동하는 것을 추천합니다.
+카테고리는 좌측 또는 상단 Tab으로 제공한다.
 
 ---
 
-## 비상금 관리
+# Rule List
 
-질문
+각 Rule Card는 다음 정보를 표시한다.
 
-비상금을 얼마까지 모으시겠습니까?
+- Rule 이름
+- 설명
+- 현재 값
+- 활성 여부
 
-입력
-
-목표 금액
-
-추천 예시
-
-비상금이 목표보다 부족합니다.
-
----
-
-## 내집마련
-
-질문
-
-내집마련 목표 금액은 얼마입니까?
-
-입력
-
-목표 금액
-
-추천 예시
-
-현재 목표의 58%를 달성했습니다.
-
----
-
-## 저축 목표
-
-질문
-
-매달 얼마를 저축하고 싶습니까?
-
-입력
-
-월 목표 금액
-
-추천 예시
-
-이번 달 목표보다 적게 저축했습니다.
-
----
-
-## 투자 관리
-
-질문
-
-현금 비중을 얼마나 유지하시겠습니까?
-
-입력
-
-목표 비율
-
-추천 예시
-
-현재 현금 비중이 목표보다 높습니다.
-
----
-
-## 직접 만들기 (Advanced)
-
-Version 1에서는
-
-간단한 사용자 정의 Rule만 지원한다.
-
-자동 실행은 지원하지 않는다.
+클릭 시 Detail을 표시한다.
 
 ---
 
 # Rule Detail
 
-각 원칙은 다음 정보를 가진다.
+사용자는 다음 항목을 수정할 수 있다.
 
-- 이름
-- 설명
-- 현재 설정값
-- 마지막 수정일
+- 활성 여부 (ON/OFF)
+- 기준 값
 
-수정
-
-삭제
-
-활성화
-
-비활성화
-
-지원
+Rule 설명은 수정할 수 없다.
 
 ---
 
-# Dashboard Connection
+# Rule Templates
 
-Dashboard Recommendation Widget은
-
-My Rules를 우선적으로 참고한다.
+Version 1은 Template만 제공한다.
 
 예시
 
-생활계좌
+---
 
-250만원
-
-↓
-
-생활비 Rule
+생활계좌 최소 잔액
 
 100만원
 
+---
+
+비상금 목표
+
+500만원
+
+---
+
+월급 입금 계좌
+
+생활계좌
+
+---
+
+내집마련 자산 우선
+
+ON
+
+---
+
+목표 달성 후 투자 시작
+
+OFF
+
+---
+
+투자 비중 유지
+
+ON
+
+---
+
+# Rule Types
+
+## Number
+
+예)
+
+생활계좌
+
+100만원
+
+---
+
+## Boolean
+
+예)
+
+투자 비중 유지
+
+ON
+
+---
+
+## Account
+
+예)
+
+월급 입금 계좌
+
+생활계좌
+
+---
+
+## Purpose
+
+예)
+
+우선 목표
+
+내집마련
+
+---
+
+# Navigation Rules
+
+Dashboard
+
 ↓
 
-추천
+Management Principles
 
-150만원을 예금으로 이동하는 것을 추천합니다.
-
----
-
-# Goal Connection
-
-Goal 진행률 계산에는 영향을 주지 않는다.
-
-추천 생성에만 사용한다.
+Dashboard로 항상 복귀 가능해야 한다.
 
 ---
 
-# Asset Connection
+# Recommendation Rules
 
-Purpose 변경에는 영향을 주지 않는다.
+Recommendation은
 
-추천 생성에만 사용한다.
+Management Principles를 가장 우선적으로 사용한다.
 
----
+Priority
 
-# Investment Connection
+Management Principles
 
-Version 1에서는
+↓
 
-추천만 생성한다.
+Goal
 
-자동 리밸런싱은 지원하지 않는다.
+↓
+
+Asset
+
+↓
+
+Investment
+
+↓
+
+Ledger
 
 ---
 
@@ -334,80 +317,86 @@ Card Shadow
 
 Click
 
-Rule Detail
+Detail 표시
 
-Template
+Switch
 
-즉시 생성
+즉시 반영
+
+저장 버튼은 사용하지 않는다.
+
+변경 사항은 자동 저장한다.
 
 ---
 
 # Empty State
 
-아직 설정된 원칙이 없습니다.
+Version 1에서는 제공하지 않는다.
 
-기본 원칙을 추가해보세요.
-
-[ 시작하기 ]
+Template가 항상 존재한다.
 
 ---
 
-# Required Data
+# Platform Strategy
 
-Rule ID
+## Desktop
 
-Template ID
+모든 기능 지원
 
-Rule Name
-
-Description
-
-Target Value
-
-Enabled
-
-Created At
-
-Updated At
+- Rule 수정
+- ON/OFF
+- 값 변경
 
 ---
 
-# Database Requirements
+## Mobile (V3)
 
-Entities
+지원
 
-RuleTemplate
+- Rule 조회
+- ON/OFF
 
-UserRule
+제한
 
-Recommendation
+- 복잡한 수정
+
+---
+
+# Data Requirements
+
+Rule
+
+- id
+- name
+- description
+- category
+- type
+- value
+- enabled
+- createdAt
+- updatedAt
 
 ---
 
 # API Requirements
 
-GET /rule-templates
+GET /rules
 
-GET /my-rules
-
-POST /my-rule
-
-PUT /my-rule
-
-DELETE /my-rule
+PUT /rules/{id}
 
 ---
 
 # Validation Rules
 
-Rule는 반드시
+모든 Rule은
 
 - 이름
-- 목표값
+- 타입
+- 기본값
 
-을 가져야 한다.
+을 가진다.
 
-목표값은 0 이상이어야 한다.
+Template 삭제는 지원하지 않는다.
 
 ---
 
@@ -415,119 +404,95 @@ Rule는 반드시
 
 포함
 
-- 템플릿 선택
-- Rule 생성
-- Rule 수정
-- Rule 삭제
-- Dashboard 추천 연결
+- Rule Template
+- ON/OFF
+- 값 수정
+- 자동 저장
 
 제외
 
-- 자동 실행
+- Rule 생성
+- Rule 삭제
+- 사용자 Template
 - AI Rule 생성
-- Marketplace
-- Rule 공유
-- Script 방식 Rule
 
 ---
 
 # Future Features
 
-Version 1.2
+## Version 1.2
 
-- 추천 강도 설정
-- Rule 우선순위
-
-Version 2
-
-- 사용자 정의 템플릿
-- Rule 가져오기
-- Rule 내보내기
-
-Version 3
-
-- AI Rule 추천
-- Rule 자동 생성
+- Rule 검색
+- Rule 즐겨찾기
+- Recommendation 근거 표시
 
 ---
 
-# Platform Strategy
+## Version 2
 
-Desktop
+- 사용자 Rule 생성
+- Rule 그룹
+- Rule Import / Export
+- Rule 공유
 
-모든 기능 지원
+---
 
-Mobile (V3)
+## Version 3
 
-조회
-
-간단한 수정
-
-지원
-
-Template 생성
-
-지원
-
-고급 설정
-
-지원하지 않음
+- Mobile Rule Editor
 
 ---
 
 # Definition of Done
 
-- Rule Summary
-- Template Gallery
-- My Rules List
+- Rule Template
+- Category
 - Rule Detail
-- CRUD
+- 자동 저장
 - Dashboard Recommendation 연동
 
 ---
 
 # Figma AI Prompt
 
-Design a desktop personal finance rule management page.
-
-Style
-
-- Minimal
-- White background
-- Rounded cards (16px)
-- Card-based layout
-- Clean typography
-- Professional financial dashboard
+Design a desktop management principles page for Atlas.
 
 Requirements
 
-- Summary card
-- Template gallery with large selectable cards
-- Active rules list
-- Rule detail page
+- Professional financial application
+- Card-based layout
+- Rule categories
+- Rule list
+- Rule detail
+- Toggle switches
+- Number input
+- White background
+- Rounded cards
+- Desktop 1440px
 - Consistent with Atlas Design System
-- Desktop (1440px)
 
 ---
 
 # Review Checklist
 
-- [ ] Vision과 일치하는가?
-- [ ] RuleBook과 연결되는가?
+- [ ] Template 기반인가?
+- [ ] Rule 생성 기능이 없는가?
 - [ ] Dashboard Recommendation과 연결되는가?
-- [ ] Template 기반 UX인가?
-- [ ] 일반 사용자도 쉽게 이해할 수 있는가?
-- [ ] Cursor가 구현 가능한가?
+- [ ] 자동 저장을 사용하는가?
+- [ ] One Screen One Question 원칙을 지키는가?
+- [ ] Desktop First 원칙을 따르는가?
 - [ ] V1 범위를 벗어나지 않는가?
 
 ---
 
 # Notes
 
-My Rules는 Atlas의 핵심 차별화 기능이다.
+Management Principles는
 
-사용자는 Rule를 작성하지 않는다.
+Atlas의 Recommendation Engine이 참고하는 가장 중요한 사용자 데이터이다.
 
-사용자는 자신의 자산관리 기준을 설정한다.
+Atlas는 사용자의 원칙을 대신 만들지 않는다.
 
-Atlas는 이 기준을 기반으로 사용자가 더 좋은 의사결정을 할 수 있도록 추천을 제공한다.
+사용자가 선택한 원칙을 기억하고,
+
+그 원칙을 기반으로 추천한다.

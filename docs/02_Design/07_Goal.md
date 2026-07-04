@@ -1,6 +1,6 @@
 # Goal Page Specification
 
-Version: 1.0
+Version: 2.0
 
 Status: Draft
 
@@ -8,52 +8,78 @@ Owner: Project Atlas
 
 Related Documents
 
-- 01_Vision.md
-- 02_RuleBook.md
-- 03_UserFlow.md
-- 05_Asset.md
-- 06_Investment.md
+- 00_StyleGuide.md
 - 01_DesignSystem.md
 - 02_Component.md
 - 03_Widget.md
+- 04_Dashboard.md
+- 05_Asset.md
+- 06_Investment.md
+- ../01_Product/01_Vision.md
+- ../01_Product/02_RuleBook.md
+- ../01_Product/03_UserFlow.md
 
 ---
 
 # Purpose
 
-Goal 화면은 사용자의 모든 재무 목표를 관리하는 화면이다.
+Goal은 사용자의 재무 목표를 관리하는 화면이다.
 
-목표 달성 현황을 보여주고,
+Atlas의 모든 자산과 투자는 하나 이상의 Goal과 연결될 수 있으며,
 
-목표를 구성하는 자산과 앞으로 필요한 행동을 확인할 수 있다.
-
-Goal은 Atlas의 최종 목적지이며,
-
-Asset와 Investment는 Goal을 위한 수단이다.
+Goal은 현재 진행 상태와 목표 달성 가능성을 사용자에게 제공한다.
 
 ---
 
-# Goals
+# Design Philosophy
+
+Goal은 단순히 목표 금액을 보여주는 화면이 아니다.
+
+Goal은
+
+"현재 계획이 잘 진행되고 있는가?"
+
+를 판단하는 화면이다.
+
+---
+
+# User Question
 
 사용자는 이 화면에서 다음 질문에 답할 수 있어야 한다.
 
 - 목표까지 얼마나 남았는가?
-- 지금 속도로 목표를 달성할 수 있는가?
-- 어떤 자산이 목표를 구성하고 있는가?
-- 얼마를 더 모아야 하는가?
-- 다음에는 무엇을 해야 하는가?
+- 현재 속도로 목표를 달성할 수 있는가?
+- 어떤 자산이 목표에 연결되어 있는가?
+- 목표를 위해 얼마를 더 모아야 하는가?
 
 ---
 
-# Screen Layout
+# Screen Responsibilities
+
+Goal은
+
+- 목표 조회
+- 목표 생성
+- 목표 수정
+- 목표 삭제
+- 연결된 Purpose 관리
+
+를 담당한다.
+
+Goal은
+
+투자를 직접 관리하지 않는다.
+
+---
+
+# Layout
 
 ```
-
 Header
 
 ↓
 
-Goal Summary
+Summary
 
 ↓
 
@@ -62,258 +88,181 @@ Goal List
 ↓
 
 Goal Detail
+```
 
-↓
+---
 
-Recommendation
+# Layout Structure
+
+```
+┌────────────────────────────────────────────┐
+
+Goal
+
+────────────────────────────────────────────
+
+목표 수
+
+대표 목표 진행률
+
+────────────────────────────────────────────
+
+Goal List
+
+────────────────────────────────────────────
+
+Goal Detail
 
 ```
 
 ---
 
-# Wireframe
-
-```
-
-┌─────────────────────────────────────────────────────────────┐
-│ ← Dashboard                                 Goal            │
-├─────────────────────────────────────────────────────────────┤
-
-목표 달성 현황
-
-2 / 5
-
-──────────────────────────────────────────────────────────────
-
-🏠 내집 마련
-
-57%
-
-228,000,000 / 400,000,000
-
-2031.12 목표
-
->
-
-──────────────────────────────────────────────────────────────
-
-📈 장기 투자
-
-43%
-
-21,500,000 / 50,000,000
-
->
-
-──────────────────────────────────────────────────────────────
-
-🛡 노후 준비
-
-12%
-
->
-
-```
-
----
-
-# Goal Summary Widget
+# Summary
 
 표시 정보
 
-- 전체 목표 개수
-- 달성 완료 목표
-- 진행 중 목표
+- 목표 개수
+- 가장 가까운 목표
+- 평균 진행률
 
-클릭 없음
+Summary는 읽기 전용이다.
 
 ---
 
-# Goal Card
+# Goal List
 
-각 목표는 Card로 표시한다.
-
-Card에는
+각 Goal Card는 다음 정보를 표시한다.
 
 - 목표 이름
-- 아이콘
 - 목표 금액
 - 현재 금액
 - 진행률
-- 예상 달성일
+- 예상 달성일(선택)
+- 상태
 
-을 표시한다.
+클릭 시
+
+Goal Detail을 표시한다.
 
 ---
 
 # Goal Detail
 
-Goal Card를 선택하면 상세 화면으로 이동한다.
+Goal Detail은 선택한 목표의 상세 정보를 표시한다.
 
-상세 화면에는
+표시 정보
 
-- 목표 정보
-- 진행률
-- 목표 자산
-- 부족 금액
-- 추천 행동
-
-을 표시한다.
-
----
-
-# Goal Assets
-
-목표는 Purpose가 같은 자산을 자동으로 합산한다.
-
-예시
-
-내집 마련
-
-↓
-
-국민은행 예금
-
-↓
-
-한국투자 ISA ETF
-
-↓
-
-채권
-
-↓
-
-BTC
-
-↓
-
-자동 합산
-
-사용자가 직접 자산을 연결하지 않는다.
+- 목표 금액
+- 현재 금액
+- 남은 금액
+- 연결된 Purpose
+- 연결된 Asset
+- 연결된 Investment
+- 메모
 
 ---
 
-# Progress Calculation
+# Goal Registration
 
-진행률
+사용자는 목표를 등록할 수 있다.
 
-=
-
-현재 평가금액
-
-÷
-
-목표금액
-
-×
-
-100
-
-모든 계산은 평가금액 기준이다.
-
----
-
-# Estimated Completion
-
-목표 달성 예상일은
-
-현재 자산 증가 속도를 기반으로 계산한다.
-
-Version 1에서는
-
-단순 계산을 사용한다.
-
-향후에는
-
-AI 예측으로 변경 가능하다.
-
----
-
-# Recommendation Widget
-
-목표별 추천 행동을 표시한다.
-
-예시
-
-생활비 계좌 잔액이 많습니다.
-
-↓
-
-내집 마련 목표에 추가할 수 있습니다.
-
----
-
-이번 달 목표 금액보다 적게 저축했습니다.
-
-↓
-
-추가 저축을 권장합니다.
-
----
-
-# Goal Creation
-
-사용자는 목표를 생성할 수 있다.
-
-필수 정보
+필수 입력
 
 - 목표명
 - 목표 금액
+
+선택 입력
+
 - 목표 날짜
-
-선택
-
-- 아이콘
-- 색상
-- 설명
-
----
-
-# Goal Edit
-
-수정 가능
-
-- 목표명
-- 금액
-- 날짜
-- 설명
-
-목표 삭제
-
-↓
-
-확인 Dialog
-
-↓
-
-삭제
-
----
-
-# Default Goals
-
-Version 1
-
-기본 제공
-
-- 내집 마련
-- 장기 투자
-- 노후 준비
-
-사용자는 자유롭게 추가 가능하다.
+- 메모
 
 ---
 
 # Goal Status
 
-진행 중
+모든 Goal은 상태를 가진다.
 
-달성 완료
+Planning
 
-일시 중단
+목표를 생성했지만 아직 자산이 연결되지 않음
+
+---
+
+In Progress
+
+목표가 진행 중
+
+---
+
+Completed
+
+목표 달성
+
+---
+
+Archived
 
 보관
+
+---
+
+# Purpose Connection
+
+Goal은 하나 이상의 Purpose와 연결될 수 있다.
+
+예)
+
+내집마련
+
+↓
+
+Purpose
+
+내집마련
+
+↓
+
+Asset
+
+예금
+
+ETF
+
+채권
+
+---
+
+# Progress Rules
+
+진행률은
+
+현재 금액
+
+÷
+
+목표 금액
+
+으로 계산한다.
+
+100%를 초과해도 그대로 표시한다.
+
+---
+
+# Navigation Rules
+
+Dashboard
+
+↓
+
+Goal
+
+Goal
+
+↓
+
+Goal Detail
+
+Dashboard로 항상 복귀 가능해야 한다.
 
 ---
 
@@ -325,63 +274,72 @@ Card Shadow
 
 Click
 
-Goal Detail
+Goal Detail 표시
 
-Animation
+Double Click
 
-200ms 이하
+사용하지 않는다.
 
 ---
 
 # Empty State
 
-등록된 목표가 없습니다.
-
-↓
+```
+아직 등록된 목표가 없습니다.
 
 [ 목표 만들기 ]
+```
 
 ---
 
-# Loading
+# Platform Strategy
 
-Skeleton 사용
+## Desktop
 
----
+모든 기능 지원
 
-# Required Data
-
-Goal ID
-
-Goal Name
-
-Target Amount
-
-Current Amount
-
-Target Date
-
-Purpose
-
-Status
-
-Created At
-
-Updated At
+- 생성
+- 수정
+- 삭제
+- Purpose 연결
 
 ---
 
-# Database Requirements
+## Mobile (V3)
 
-Entities
+지원
+
+- 조회
+- 목표 생성
+- 간단한 수정
+
+제한
+
+- 대량 수정
+- 복잡한 연결 관리
+
+---
+
+# Data Requirements
 
 Goal
 
+- id
+- name
+- targetAmount
+- currentAmount
+- targetDate
+- memo
+- status
+- createdAt
+- updatedAt
+
+---
+
 Purpose
 
-Asset
-
-GoalHistory
+- id
+- goalId
 
 ---
 
@@ -389,28 +347,21 @@ GoalHistory
 
 GET /goals
 
-GET /goal/{id}
+POST /goals
 
-POST /goal
+PUT /goals/{id}
 
-PUT /goal
-
-DELETE /goal
+DELETE /goals/{id}
 
 ---
 
 # Validation Rules
 
-모든 목표는
-
-- 이름
-- 목표금액
-
-을 가져야 한다.
-
-목표금액은
+목표 금액은
 
 0보다 커야 한다.
+
+Goal 이름은 필수이다.
 
 ---
 
@@ -418,77 +369,76 @@ DELETE /goal
 
 포함
 
-- 목표 생성
-- 수정
-- 삭제
-- 진행률 계산
-- Goal Card
+- Goal CRUD
+- 진행률
+- Purpose 연결
 - Goal Detail
 
 제외
 
-- AI 예측
-- 자동 추천 개선
-- 목표별 리포트
-- 목표 달성 알림
+- 목표 시뮬레이션
+- 목표 추천
+- AI 분석
+- 자동 계획 생성
 
 ---
 
 # Future Features
 
-- AI 예상 달성일
-- 목표별 투자 추천
-- 자동 리포트
+Version 1.2
+
+- 예상 달성일 계산
+- 목표 우선순위
 - 목표 히스토리
-- 여러 목표 비교
+
+Version 2
+
+- Goal Simulation
+- AI Goal Planning
+- 목표 달성 시나리오
+
+Version 3
+
+- Mobile Companion
+- Goal Widget 확장
 
 ---
 
 # Definition of Done
 
-완료 조건
-
-- Goal Summary 구현
-- Goal List 구현
-- Goal Detail 구현
-- Progress 계산 구현
-- Recommendation 연결
+- Goal CRUD
+- Progress 계산
+- Purpose 연결
 - Dashboard 연동
 
 ---
 
 # Figma AI Prompt
 
-Design a modern desktop financial goal management page.
-
-Style
-
-- Professional
-- Minimal
-- White background
-- Card based UI
-- Rounded cards
-- Soft shadows
+Design a desktop goal management page for Atlas.
 
 Requirements
 
-- Goal summary card
-- Goal progress cards
-- Progress bar
-- Recommendation card
-- Goal detail page
-- Consistent with Asset and Investment pages
+- Professional financial dashboard
+- Card-based layout
+- Goal list on the left
+- Goal detail on the right
+- Progress visualization
+- White background
+- Rounded cards (16px)
+- Desktop 1440px
+- Consistent with Atlas Design System
 
 ---
 
 # Review Checklist
 
-- [ ] Vision과 일치하는가?
-- [ ] RuleBook을 따르는가?
-- [ ] UserFlow와 연결되는가?
-- [ ] Goal은 Purpose 기반으로 계산되는가?
+- [ ] Goal 중심 설계를 따르는가?
+- [ ] Progress 계산이 명확한가?
+- [ ] Purpose와 연결되는가?
 - [ ] Dashboard와 연결되는가?
-- [ ] Cursor가 구현 가능한가?
+- [ ] One Screen One Question 원칙을 지키는가?
+- [ ] Desktop First 원칙을 따르는가?
 - [ ] V1 범위를 벗어나지 않는가?
 
 ---
@@ -497,6 +447,14 @@ Requirements
 
 Goal은 Atlas의 최종 목적지이다.
 
-Asset와 Investment는 Goal을 달성하기 위한 수단이다.
+Asset는
 
-사용자는 Goal 화면에서 자신의 현재 위치와 앞으로 해야 할 행동을 이해할 수 있어야 한다.
+돈이 어디에 있는지를 관리한다.
+
+Investment는
+
+돈이 어떻게 투자되고 있는지를 관리한다.
+
+Goal은
+
+그 돈이 왜 존재하는지를 관리한다.

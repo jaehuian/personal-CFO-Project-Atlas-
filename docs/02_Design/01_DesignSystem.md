@@ -1,184 +1,239 @@
 # Atlas Design System
 
-Version: 1.0
+Version: 1.1
+
 Status: Draft
+
 Owner: Project Atlas
-Related Documents:
-- README.md
-- 02_Component.md
-- 03_Widget.md
+
+Related Documents
+
+- ../00_Common/01_Glossary.md
+- ../01_Product/01_Vision.md
+- ../01_Product/02_RuleBook.md
+- ../01_Product/03_UserFlow.md
+- 04_Dashboard.md
 
 ---
 
 # Purpose
 
-Atlas Design System은 Project Atlas에서 사용하는 UI/UX의 기준을 정의한다.
+Design System은 Atlas의 모든 화면이 동일한 사용자 경험을 제공하도록 하는 기준이다.
 
-모든 화면은 본 문서의 규칙을 따른다.
-
-새로운 화면이나 기능을 추가하더라도 기존 디자인 원칙을 유지하여 일관된 사용자 경험을 제공하는 것이 목적이다.
+모든 디자인, 컴포넌트, 위젯은 본 문서를 따른다.
 
 ---
 
 # Design Philosophy
 
-Atlas는 화려한 UI보다 사용성을 우선한다.
+Atlas는 예쁜 프로그램보다 사용하기 쉬운 프로그램을 만든다.
 
-디자인의 목적은 예쁜 화면이 아니라 사용자가 빠르게 현재 상태를 이해하고 다음 행동을 결정할 수 있도록 돕는 것이다.
+디자인은 정보를 꾸미기 위한 것이 아니라,
 
-우선순위
-
-1. 정보 전달
-2. 사용성
-3. 일관성
-4. 심미성
+사용자가 더 빠르게 의사결정을 내릴 수 있도록 돕기 위한 것이다.
 
 ---
 
 # UX Principles
 
-## 1. Dashboard First
+## Decision Surface
 
-모든 사용은 Dashboard에서 시작한다.
-
-Dashboard는 현재 상태만 보여준다.
-
-상세 정보는 각 화면에서 확인한다.
+모든 화면은 사용자의 의사결정을 돕는다.
 
 ---
 
-## 2. One Screen, One Purpose
+## Dashboard First
 
-하나의 화면은 하나의 목적만 가진다.
+Dashboard를 기준으로 모든 화면을 설계한다.
+
+---
+
+## One Screen One Question
+
+한 화면은 하나의 질문만 해결한다.
 
 예)
 
-Dashboard → 현재 상태
-
-Asset → 자산 관리
-
-Investment → 투자 관리
-
-Ledger → 가계부
-
-Goal → 목표 관리
-
----
-
-## 3. Card Based UI
-
-Atlas는 모든 정보를 Card 형태로 표현한다.
-
-예)
-
-- 순자산 카드
-- 목표 카드
-- 추천 행동 카드
-- 계좌 카드
-- 투자 카드
-
-Table 사용은 최소화한다.
-
----
-
-## 4. Widget Based Design
-
-모든 카드는 Widget이다.
-
-Widget은 독립적으로 동작한다.
-
-Widget은 다른 화면에서도 재사용 가능해야 한다.
-
-예)
-
-Net Worth Widget
+Asset
 
 ↓
 
-Dashboard
-
-↓
-
-Goal 화면
-
-↓
-
-Asset 화면
-
-모두 사용 가능
+"내 돈은 어디에 있는가?"
 
 ---
 
-## 5. Progressive Disclosure
+## Simplicity First
 
-처음에는 필요한 정보만 보여준다.
+복잡한 설정보다
 
-사용자가 클릭하면 상세 정보가 열린다.
-
-예)
-
-Dashboard
-
-↓
-
-생활비
-
-↓
-
-Asset Detail
-
-↓
-
-계좌 목록
+좋은 기본값을 제공한다.
 
 ---
 
-## 6. Purpose First
+## Progressive Disclosure
 
-Atlas는 계좌보다 목적을 먼저 보여준다.
+필요한 정보만 먼저 보여준다.
 
-목적 예시
-
-- 생활비
-- 내집마련
-- 장기투자
-- 노후준비
-
-모든 자산은 목적을 가진다.
+자세한 정보는 클릭 후 확인한다.
 
 ---
 
-# Design Keywords
+# Platform Strategy
 
-Atlas가 추구하는 디자인
+Primary Platform
 
-Simple
-
-Modern
-
-Minimal
-
-Professional
-
-Financial
-
-Reliable
-
-Readable
+Desktop (Electron)
 
 ---
 
-# Color Philosophy
+Secondary Platform
 
-색상은 의미를 가진다.
+Mobile Companion (V3)
+
+---
+
+Desktop에서는 모든 기능을 제공한다.
+
+Mobile에서는 조회와 빠른 입력 중심으로 제공한다.
+
+---
+
+# Information Hierarchy
+
+정보는 다음 우선순위를 따른다.
+
+Tier 1
+
+현재 반드시 알아야 하는 정보
+
+---
+
+Tier 2
+
+상황을 이해하기 위한 정보
+
+---
+
+Tier 3
+
+참고 정보
+
+Dashboard에는 Tier3 이하 정보를 최소화한다.
+
+---
+
+# Layout System
+
+모든 화면은 Card 기반으로 구성한다.
+
+```
+Header
+
+↓
+
+Summary
+
+↓
+
+Main Content
+
+↓
+
+Detail
+```
+
+긴 스크롤을 지양한다.
+
+---
+
+# Grid System
+
+Desktop
+
+12 Columns
+
+---
+
+Max Width
+
+1440px
+
+---
+
+Content Width
+
+1200~1320px
+
+---
+
+Card Gap
+
+24px
+
+---
+
+Section Gap
+
+32px
+
+---
+
+# Spacing System
+
+8px Grid System
+
+사용 값
+
+- 8
+- 16
+- 24
+- 32
+- 48
+- 64
+
+---
+
+# Typography
+
+Font
+
+Pretendard
+
+Fallback
+
+Noto Sans KR
+
+---
+
+Heading
+
+Bold
+
+---
+
+Body
+
+Regular
+
+---
+
+Caption
+
+Medium
+
+---
+
+숫자는 항상 동일한 정렬을 유지한다.
+
+금액은 읽기 쉬운 크기로 표시한다.
+
+---
+
+# Color System
 
 Primary
 
 Atlas Blue
-
-↓
-
-주요 액션
 
 ---
 
@@ -186,25 +241,11 @@ Success
 
 Green
 
-↓
-
-목표 달성
-
-수익
-
-긍정 상태
-
 ---
 
 Warning
 
 Orange
-
-↓
-
-주의
-
-예산 초과
 
 ---
 
@@ -212,159 +253,97 @@ Danger
 
 Red
 
-↓
+---
 
-손실
+Background
 
-부족
-
-위험
+White
 
 ---
 
-Neutral
+Surface
 
-Gray
-
-↓
-
-일반 정보
-
-보조 정보
+Light Gray
 
 ---
 
-차트는 색보다 형태와 라벨을 우선한다.
+Color는 의미를 표현할 때만 사용한다.
 
----
-
-# Typography
-
-우선순위
-
-Heading
-
-↓
-
-Section
-
-↓
-
-Body
-
-↓
-
-Caption
-
-폰트는 읽기 쉬운 Sans-serif를 사용한다.
-
-텍스트 크기는 최소 14px 이상을 유지한다.
+장식용 색상은 사용하지 않는다.
 
 ---
 
 # Radius
 
-Atlas는 둥근 UI를 사용한다.
-
-Card Radius
+Cards
 
 16px
 
-Button Radius
+---
+
+Button
 
 12px
 
-Input Radius
+---
+
+Input
 
 12px
 
-Modal Radius
+---
 
-20px
+Chip
+
+999px
 
 ---
 
-# Spacing
+# Shadow
 
-기본 단위
+Card
 
-8px Grid
-
-Spacing
-
-8
-
-16
-
-24
-
-32
-
-48
-
-64
-
-만 사용한다.
+Soft Shadow
 
 ---
 
-# Icons
+Hover
 
-Outline Style
-
-일관된 두께
-
-텍스트보다 먼저 보이면 안 된다.
-
-아이콘은 보조 역할이다.
+Medium Shadow
 
 ---
 
-# Charts
+Modal
 
-기본 차트
-
-Donut Chart
-
-Bar Chart
-
-Line Chart
-
-Priority
-
-Donut
-
->
-
-Bar
-
->
-
-Line
-
-Pie Chart는 사용하지 않는다.
+Large Shadow
 
 ---
 
-# Navigation
+Shadow는 깊이를 표현하기 위해서만 사용한다.
 
-Atlas는 Sidebar를 사용하지 않는다.
+---
 
-모든 이동은
+# Motion
 
-Widget
+Animation
 
-또는
+150~250ms
 
-Bottom Navigation
+---
 
-또는
+Hover
 
-Back
+Fade
 
-으로 이동한다.
+---
 
-메뉴는 최소화한다.
+Page Transition
+
+Minimal
+
+---
+
+과도한 애니메이션은 사용하지 않는다.
 
 ---
 
@@ -372,113 +351,207 @@ Back
 
 Hover
 
-약한 그림자
-
-Click
-
-Scale 98%
-
-Loading
-
-Skeleton 사용
-
-Animation
-
-150~250ms
-
-과한 Animation 금지
+Shadow 증가
 
 ---
 
-# Responsive
+Click
 
-Desktop 우선
+Scale 없음
 
-Tablet 지원
+---
 
-Mobile 지원
+Focus
 
-모든 Widget은 반응형이어야 한다.
+Outline 표시
+
+---
+
+Disabled
+
+Opacity 감소
 
 ---
 
 # Accessibility
 
+Keyboard Navigation 지원
+
+---
+
+명확한 Focus 상태 제공
+
+---
+
 색상만으로 정보를 전달하지 않는다.
 
-차트는 Label을 함께 제공한다.
+---
 
-버튼은 충분한 크기를 유지한다.
-
-텍스트 대비를 유지한다.
+Contrast를 유지한다.
 
 ---
 
-# Design Rules
+# Widget Rules
 
-항상 Widget 사용
+모든 Widget는
 
-Card 기반 UI
+Question
 
-정보 우선
+↓
 
-여백 유지
+Primary KPI
 
-복잡한 표 사용 금지
+↓
 
-Popup 최소화
+Secondary KPI
 
-Modal 최소화
+↓
 
-한 화면에 하나의 목적
+Action
 
----
+↓
 
-# Definition of Good Design
+Target
 
-좋은 화면은
-
-예쁜 화면이 아니다.
-
-좋은 화면은
-
-사용자가 3초 안에
-
-현재 상태를 이해할 수 있는 화면이다.
+구조를 가진다.
 
 ---
 
-# Future Extensions
-
-Dark Mode
-
-Custom Theme
-
-Widget Marketplace
-
-Color Theme
-
-User Theme
+Widget는 독립적으로 동작해야 한다.
 
 ---
 
-## Platform Strategy
-Responsive Strategy
+# Card Rules
+
+모든 주요 기능은 Card로 표현한다.
+
+Card는 하나의 역할만 가진다.
+
+Card 안에 Card를 중첩하지 않는다.
+
+---
+
+# Navigation Rules
+
+메뉴보다 Widget Navigation을 우선한다.
+
+Dashboard는 항상 시작점이다.
+
+---
+
+# Responsive Strategy
 
 Desktop
 
-Primary
+Primary Experience
+
+---
 
 Tablet
 
-Secondary
+Layout 축소
+
+---
 
 Mobile
 
-Companion App
+Companion Experience
+
+---
+
+Responsive는
+
+기능이 아니라 표현만 변경한다.
+
+---
+
+# Naming Rules
+
+Component
+
+PascalCase
+
+예)
+
+AssetCard
+
+GoalWidget
+
+DashboardHeader
+
+---
+
+Props
+
+camelCase
+
+예)
+
+totalAsset
+
+marketValue
+
+goalProgress
+
+---
+
+CSS
+
+Tailwind Utility 우선
+
+---
+
+# Design Tokens
+
+Spacing
+
+8px Grid
+
+---
+
+Radius
+
+12 / 16
+
+---
+
+Shadow
+
+Small
+
+Medium
+
+Large
+
+---
+
+Animation
+
+200ms
+
+---
+
+# Review Checklist
+
+- [ ] Desktop First를 따르는가?
+- [ ] One Screen One Question을 만족하는가?
+- [ ] Card 기반인가?
+- [ ] Widget 구조를 따르는가?
+- [ ] 긴 스크롤을 만들지 않는가?
+- [ ] 정보 우선순위를 지키는가?
+- [ ] Dashboard 철학과 일치하는가?
+- [ ] Mobile Companion 전략을 고려했는가?
+
+---
 
 # Version History
 
-v1.0
+## v1.1
 
-Initial Design System
+- UX Principles 추가
+- Dashboard First 추가
+- Decision Surface 추가
+- Widget Rules 추가
+- Information Hierarchy 추가
+- Responsive Strategy 추가
+- Desktop First 전략 반영

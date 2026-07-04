@@ -1,48 +1,81 @@
 # Ledger Page Specification
 
-Version: 1.0
+Version: 2.0
 
 Status: Draft
 
 Owner: Project Atlas
 
+Display Name: 가계부
+
 Related Documents
 
-- 01_Vision.md
-- 02_RuleBook.md
-- 03_UserFlow.md
-- 05_Asset.md
-- 06_Investment.md
-- 07_Goal.md
+- 00_StyleGuide.md
 - 01_DesignSystem.md
 - 02_Component.md
 - 03_Widget.md
+- 04_Dashboard.md
+- 05_Asset.md
+- 06_Investment.md
+- 07_Goal.md
+- ../01_Product/01_Vision.md
+- ../01_Product/02_RuleBook.md
+- ../01_Product/03_UserFlow.md
 
 ---
 
 # Purpose
 
-Ledger(가계부)는 사용자의 모든 거래를 기록하고 관리하는 화면이다.
+Ledger는 사용자의 거래를 기록하는 화면이다.
 
-Atlas에서 발생하는 모든 돈의 이동은 Ledger를 통해 기록된다.
+Atlas는 거래를 정확하게 기록하고,
 
-Ledger는 거래를 기록하는 역할을 담당하며, Dashboard는 Ledger 데이터를 분석하여 현재 상태와 추천을 제공한다.
+Dashboard가 이를 분석하여 사용자에게 보여준다.
+
+Ledger는 기록을 담당하고,
+
+분석은 담당하지 않는다.
 
 ---
 
-# Goals
+# Design Philosophy
+
+Ledger는
+
+돈을 입력하는 화면이다.
+
+사용자는 가능한 적은 입력으로
+
+빠르게 거래를 기록할 수 있어야 한다.
+
+---
+
+# User Question
 
 사용자는 이 화면에서 다음 질문에 답할 수 있어야 한다.
 
-- 이번 달 얼마를 벌었는가?
-- 이번 달 얼마를 사용했는가?
-- 어디에 가장 많이 사용했는가?
-- 거래 내역은 무엇인가?
-- 거래를 빠르게 등록할 수 있는가?
+- 이번 달 어떤 거래를 했는가?
+- 특정 거래를 수정하거나 삭제해야 하는가?
+- 거래는 어느 계좌에서 발생했는가?
 
 ---
 
-# Screen Layout
+# Screen Responsibilities
+
+Ledger는
+
+- 거래 조회
+- 거래 등록
+- 거래 수정
+- 거래 삭제
+
+를 담당한다.
+
+소비 분석이나 통계는 Dashboard에서 담당한다.
+
+---
+
+# Layout
 
 ```
 Header
@@ -61,163 +94,115 @@ Transaction List
 
 ↓
 
-Floating Action Button (+)
+Transaction Detail
 ```
 
 ---
 
-# Wireframe
+# Layout Structure
 
 ```
-┌──────────────────────────────────────────────────────────────┐
-│ ← Dashboard                                 가계부          │
-├──────────────────────────────────────────────────────────────┤
+┌────────────────────────────────────────────┐
 
-2026년 7월
-
-수입
-2,300,000원
-
-지출
-1,120,000원
-
-이체
-800,000원
-
-──────────────────────────────────────────────────────────────
-
-[전체] [수입] [지출] [이체]
-
-──────────────────────────────────────────────────────────────
-
-7월 25일
-
-🍽 식비
-
--15,000원
-
-체크카드
+가계부
 
 ────────────────────────────────────────────
 
-💰 월급
+이번 달
 
-+2,300,000원
-
-국민은행
+수입 / 지출 / 이체
 
 ────────────────────────────────────────────
 
-🔄 생활계좌 → 예금
+검색
 
-800,000원
+필터
 
 ────────────────────────────────────────────
 
-                    ＋
+거래 목록
+
+────────────────────────────────────────────
+
+거래 상세
+
 ```
 
 ---
 
-# Monthly Summary Widget
+# Monthly Summary
 
 표시 정보
 
-- 총 수입
-- 총 지출
-- 총 이체
+- 이번 달 수입
+- 이번 달 지출
+- 이번 달 이체
 
-이체는 지출에 포함하지 않는다.
+Summary는 읽기 전용이다.
+
+이체는 수입과 지출에 포함하지 않는다.
 
 ---
 
 # Transaction List
 
-거래는 최신순으로 표시한다.
+거래 목록은 최신순으로 정렬한다.
 
-거래 정보
+각 거래는 다음 정보를 표시한다.
 
 - 날짜
-- 카테고리
-- 금액
-- 결제수단
-- 메모 (있는 경우)
 - 거래 유형
-
----
-
-# Transaction Type
-
-Version 1
-
-- 수입
-- 지출
-- 이체
+- 금액
+- 카테고리
+- 계좌
+- 메모(있는 경우)
 
 ---
 
 # Transaction Detail
 
-거래를 클릭하면 상세 화면을 표시한다.
+거래를 선택하면 상세 정보를 표시한다.
 
 표시 정보
 
 - 날짜
 - 거래 유형
-- 카테고리
 - 금액
-- 결제수단
 - 계좌
+- 카테고리
+- 결제수단
 - 메모
-
-이체인 경우
-
-- 출금 계좌
-- 입금 계좌
-
-를 함께 표시한다.
 
 ---
 
-# Add Transaction
+# Transaction Registration
 
-Floating Action Button 클릭
-
-↓
-
-거래 추가 화면
+사용자는 거래를 등록할 수 있다.
 
 필수 입력
 
 - 거래 유형
 - 날짜
 - 금액
-
-유형별 입력
-
-수입
-
+- 계좌
 - 카테고리
-- 입금 계좌
-
-지출
-
-- 카테고리
-- 결제수단
-- 출금 계좌
-
-이체
-
-- 출금 계좌
-- 입금 계좌
 
 선택 입력
 
+- 결제수단
 - 메모
 
 ---
 
-# Income Categories
+# Transaction Types
+
+Version 1은 세 가지 거래 유형을 지원한다.
+
+## Income
+
+수입
+
+예)
 
 - 월급
 - 부업
@@ -226,16 +211,20 @@ Floating Action Button 클릭
 
 ---
 
-# Fixed Expense Categories
+## Expense
+
+지출
+
+예)
+
+고정비
 
 - 통신비
 - 교육
 - 구독
 - 기타
 
----
-
-# Variable Expense Categories
+소비
 
 - 교통비
 - 식비
@@ -254,31 +243,19 @@ Floating Action Button 클릭
 
 ---
 
-# Payment Methods
+## Transfer
 
-- 신용카드
-- 체크카드
-- 현금/송금
-- 기타
+이체
 
----
-
-# Transfer Rules
-
-이체는
-
-- 수입으로 계산하지 않는다.
-- 지출로 계산하지 않는다.
-
-이체는 자산의 위치만 변경한다.
+계좌 간 자산 이동
 
 예)
 
-생활계좌
+생활비 계좌
 
 ↓
 
-예금
+예금 계좌
 
 ↓
 
@@ -286,59 +263,73 @@ ISA
 
 ↓
 
-증권계좌
+연금저축
+
+이체는
+
+수입도 아니고
+
+지출도 아니다.
+
+---
+
+# Payment Method
+
+Version 1
+
+- 신용카드
+- 체크카드
+- 현금/송금
+- 기타
+
+결제수단은 Expense에서만 사용한다.
+
+---
+
+# Filter
+
+지원
+
+- 기간
+- 거래 유형
+- 계좌
+- 카테고리
+
+검색
+
+- 메모
+- 거래명
+
+---
+
+# Sorting
+
+기본
+
+최신순
+
+지원
+
+- 오래된순
+- 금액순
+
+---
+
+# Navigation Rules
+
+Dashboard
 
 ↓
 
-비상금 계좌
+Ledger
 
----
+Ledger
 
-# Filters
+↓
 
-사용자는 거래를 필터링할 수 있다.
+Transaction Detail
 
-기본 제공
-
-- 전체
-- 수입
-- 지출
-- 이체
-
-향후 추가
-
-- 카테고리
-- 계좌
-- 결제수단
-- 기간
-
----
-
-# Search
-
-Version 1
-
-제공하지 않는다.
-
-Version 2
-
-거래 검색 지원
-
----
-
-# Monthly Statistics
-
-Version 1
-
-간단한 요약만 제공
-
-Version 2
-
-카테고리별 통계
-
-월별 비교
-
-연간 비교
+Dashboard로 항상 복귀 가능해야 한다.
 
 ---
 
@@ -346,75 +337,69 @@ Version 2
 
 Hover
 
-Card Shadow
+행 강조
 
 Click
 
-Transaction Detail
+Detail 표시
 
-Floating Button
+Double Click
 
-거래 등록
+사용하지 않는다.
 
 ---
 
 # Empty State
 
-등록된 거래가 없습니다.
+```
+아직 거래 내역이 없습니다.
 
-↓
-
-[ 첫 거래 등록 ]
-
----
-
-# Loading
-
-Skeleton 사용
+[ 거래 등록 ]
+```
 
 ---
 
-# Required Data
+# Platform Strategy
 
-Transaction ID
+## Desktop
 
-Date
+모든 기능 지원
 
-Type
-
-Category
-
-Amount
-
-Payment Method
-
-Account
-
-Memo
-
-Created At
-
-Updated At
-
-Transfer From (Optional)
-
-Transfer To (Optional)
+- 거래 CRUD
+- 필터
+- 검색
 
 ---
 
-# Database Requirements
+## Mobile (V3)
 
-Entities
+지원
+
+- 빠른 거래 등록
+- 거래 조회
+- 간단한 수정
+
+제한
+
+- 대량 수정
+- 복잡한 필터
+
+---
+
+# Data Requirements
 
 Transaction
 
-Category
-
-PaymentMethod
-
-Account
-
-Transfer
+- id
+- type
+- date
+- amount
+- accountId
+- categoryId
+- paymentMethod
+- memo
+- createdAt
+- updatedAt
 
 ---
 
@@ -422,15 +407,11 @@ Transfer
 
 GET /transactions
 
-POST /transaction
+POST /transactions
 
-PUT /transaction
+PUT /transactions/{id}
 
-DELETE /transaction
-
-GET /categories
-
-GET /payment-methods
+DELETE /transactions/{id}
 
 ---
 
@@ -439,24 +420,61 @@ GET /payment-methods
 모든 거래는
 
 - 날짜
-- 거래 유형
 - 금액
+- 계좌
+- 거래 유형
 
 을 가져야 한다.
 
-지출은 반드시
+금액은 0보다 커야 한다.
 
-- 카테고리
-- 결제수단
+---
 
-을 가져야 한다.
+# V1 Categories
 
-이체는 반드시
+## Income
 
-- 출금 계좌
-- 입금 계좌
+- 월급
+- 부업
+- 금융
+- 기타
 
-를 가져야 한다.
+---
+
+## Fixed Expense
+
+- 통신비
+- 교육
+- 구독
+- 기타
+
+---
+
+## Expense
+
+- 교통비
+- 식비
+- 생활비
+- 문화여가
+- 간식
+- 경조사
+- 의류/미용
+- 의료/건강
+- 운동
+- 교육
+- 반려동물
+- 여행
+- 금융
+- 기타
+
+---
+
+## Payment Method
+
+- 신용카드
+- 체크카드
+- 현금/송금
+- 기타
 
 ---
 
@@ -464,90 +482,96 @@ GET /payment-methods
 
 포함
 
-- 거래 등록
-- 거래 수정
-- 거래 삭제
-- 월별 요약
-- 거래 목록
-- 수입/지출/이체 필터
+- 거래 CRUD
+- 필터
+- 검색
+- 월별 Summary
+- 이체 관리
 
 제외
 
-- 검색
-- 통계 차트
+- 예산(Budget)
+- 반복 거래
+- 영수증 OCR
 - 자동 분류
-- OCR
-- 은행 연동
+- 소비 분석
 
 ---
 
 # Future Features
 
-- 거래 검색
-- 카테고리 관리
-- 반복 거래
-- 자동 거래 가져오기
-- OCR 영수증 등록
+## Version 1.2
+
 - 소비 패턴 분석
-- 예산 관리
+- Insight
+- 반복 거래
+
+---
+
+## Version 2
+
+- OCR 영수증 등록
+- 자동 카테고리 분류
+- 배당
+- 세금
+- 환전
+
+---
+
+## Version 3
+
+- Mobile Quick Add
+- 음성 입력
 
 ---
 
 # Definition of Done
 
-완료 조건
-
-- 월별 요약 구현
-- 거래 목록 구현
-- 거래 등록 구현
-- 거래 수정 구현
-- 거래 삭제 구현
-- 이체 처리 구현
+- Transaction CRUD
+- Monthly Summary
+- Category System
+- Transfer Rule
 - Dashboard 연동
 
 ---
 
 # Figma AI Prompt
 
-Design a modern desktop household ledger page for Atlas.
-
-Style
-
-- Minimal
-- Professional
-- White background
-- Rounded cards (16px)
-- Soft shadows
-- Financial dashboard style
+Design a desktop ledger page for Atlas.
 
 Requirements
 
-- Monthly summary card
+- Professional finance application
+- Table-first layout
+- Fast transaction entry
+- Monthly summary
 - Transaction list
-- Floating Add button
-- Filter chips (All / Income / Expense / Transfer)
-- Clean typography
-- Desktop layout (1440px)
-- Consistent with Asset, Investment and Goal pages
+- Transaction detail panel
+- White background
+- Rounded cards
+- Desktop 1440px
+- Consistent with Atlas Design System
 
 ---
 
 # Review Checklist
 
-- [ ] Vision과 일치하는가?
-- [ ] RuleBook을 따르는가?
-- [ ] UserFlow와 연결되는가?
-- [ ] 이체는 수입/지출과 분리되는가?
-- [ ] Dashboard와 연결되는가?
-- [ ] Cursor가 구현 가능한가?
+- [ ] 거래 입력이 빠른가?
+- [ ] 이체가 수입/지출과 분리되는가?
+- [ ] Dashboard와 역할이 명확히 구분되는가?
+- [ ] 검색과 필터가 충분한가?
+- [ ] One Screen One Question 원칙을 따르는가?
+- [ ] Desktop First 원칙을 따르는가?
 - [ ] V1 범위를 벗어나지 않는가?
 
 ---
 
 # Notes
 
-Ledger는 거래를 기록하는 화면이다.
+Ledger는 Atlas의 데이터 입력 화면이다.
 
-거래를 분석하고 추천하는 역할은 Dashboard가 담당한다.
+정확한 기록은 좋은 분석의 시작이다.
 
-Ledger는 빠른 입력과 정확한 기록을 최우선으로 설계한다.
+Ledger는 거래를 기록하고,
+
+Dashboard는 그 거래를 이해하도록 돕는다.
